@@ -1,0 +1,156 @@
+\chapter{Methodology}\label{chap:methodology}
+
+This chapter outlines the methodology employed to develop \acrshort{NOnt+SLabel}, an extension of the \acrshort{NOntLabel} ontology for narratives in digital libraries. NOnt+S is designed to enhance geospatial representation within narrative frameworks, improving the ontology’s capacity to represent and perform reasoning on spatial information in narratives. This chapter details each stage of the development process, from requirement gathering to the ontology implementation, following an evolving prototype life cycle. The methodology is inspired by the METHONTOLOGY framework\cite{fernandez-lopezMETHONTOLOGYOntologicalArt1997}, which provides a structured approach for building ontologies, and it incorporates elements of ontology reuse, formalization, and validation to ensure scalability and precision in geospatial narrative representation.
+
+\section{Overview of the Methodology}\label{IV-sec:methodology-overview}
+
+The development methodology for NOnt+S is iterative and modular. A lifecycle of continuous refinement and adaptation of the ontology is adopted, driven by feedback and evolving requirements. The development process is divided into six major phases: 
+(1) Requirements Specification, 
+(2) Knowledge Acquisition, 
+(3) Conceptualization, 
+(4) Mathematical Specification, 
+(5) Integration and Formalization,  
+(6) Technical Implementation, and
+(7) Evaluation and Maintenance
+These phases are supported by ongoing documentation. 
+Figure~\ref{fig:ontology-life-cycle} illustrates the overall lifecycle of \acrshort{NOnt+SLabel}.
+
+\begin{figure}[htbp]
+ 
+\def\nbcote{7}% number of side
+\def\startmodule{90}% position of module 1
+\def\rayon{5.5cm}%<- radius of polygon
+\definecolor{teal}{RGB}{0,128,128}
+
+\tikzset{every node/.style={on chain,text width=3.5cm,draw,rounded corners,minimum width=3.5cm,minimum height=2.8cm,top color=white,bottom color=teal!60,align=center
+}}
+
+\begin{tikzpicture}[start chain= polygon placed {at=({\startmodule+(\tikzchaincount-1)*(-360/\nbcote)}:\rayon)}]
+\foreach \texte [count=\i from 1]in 
+{(1)\\Requirements Specification, 
+    (2)\\ Knowledge Acquisition, 
+    (3)\\ Conceptualization, 
+    (4)\\ Mathematical Specification,
+    (5)\\ Integration and Formalization,  
+    (6)\\ Technical Implementation, 
+    (7)\\ Evaluation and Maintenance}
+    {\node [] {\texte};
+    }
+
+%\draw (0,0) circle (\rayon);% <- circle inscribed in the polygon
+
+\foreach \i [evaluate={
+            \next=int(1+mod({\i},\nbcote));}] 
+        in {1,...,\nbcote}{
+\draw[->,line width=2pt] (polygon-\i)to[bend left=10](polygon-\next);
+}
+\draw [->,line width=2pt,dashed] (polygon-7) to [bend left=10] (polygon-6);
+\draw [->,line width=2pt,dashed] (polygon-6.east) to [bend left=30] (polygon-5.60);
+% \draw [->,line width=2pt,dashed] (polygon-5.40) to [bend left=40] (polygon-4.130);
+\draw [->,line width=2pt,dashed] (polygon-2.south west) to [bend right=40] (polygon-4.130);
+\draw [->,line width=2pt,dashed] (polygon-2.south west) to [bend right=40] (polygon-5.130);
+\draw [->,line width=2pt,dashed] (polygon-2.south west) to [bend right=40] (polygon-6.north east);
+\end{tikzpicture}
+  
+
+\caption{Life Cycle of NOnt+S Ontology Development. The lines represent the transition from one phase to another. The dotted lines indicate the connection between two phases that are not consecutive, showing that one phase is involved in another.}
+    \label{fig:ontology-life-cycle}
+\end{figure}
+
+\section{Requirements Specification}\label{IV-sec:requirements-specification}
+
+The first phase of the ontology development process is the specification of requirements. The objective of this phase is to clearly define the scope, purpose, and functional requirements of NOnt+S. Specifically, NOnt+S extends the NOnt ontology to include geospatial components that facilitate the representation of locations, movements, and spatial relationships within narratives. To achieve this, we considered two primary use cases:
+
+\begin{enumerate}
+    \item \textbf{Geospatial Representation in Narratives:} The ontology must capture geospatial entities such as places, regions, and paths, and represent the spatial relationships between them (e.g., containment, adjacency, and proximity). 
+    \item \textbf{Narrative-driven Geospatial Queries:} The ontology must support the extraction and reasoning about spatial information embedded in narratives, allowing for advanced queries such as "What are the key locations mentioned in the story?" and "What movements do characters make across regions?".
+\end{enumerate}
+
+The end-users of NOnt+S include digital library systems, cultural heritage projects, and academic researchers interested in narrative-driven spatial analysis. The requirements for NOnt+S were formalized in a requirements specification document, detailing the expected functionalities and the necessary extensions to NOnt. 
+
+\section{Knowledge Acquisition}\label{IV-sec:knowledge-acquisition}
+
+Knowledge acquisition for NOnt+S involved gathering domain-specific knowledge related to geospatial reasoning and its intersection with narrative structures. The knowledge acquisition process was carried out through a combination of literature reviews and expert consultations. Additionally, existing spatial ontologies and vocabularies like GeoSPARQL\cite{matthewperryOGCGeoSPARQLGeographic2012} were analyzed to identify reusable components. These components provided foundational concepts for spatial entities, which were adapted and extended to fit the specific needs of narratives in NOnt+S.
+
+
+\section{Conceptualization}\label{IV-sec:conceptualization}
+
+The conceptualization phase is a critical stage in the METHONTOLOGY framework, where the knowledge gathered during the knowledge acquisition phase is structured into a coherent conceptual model. The goal of the conceptualization is to transform the raw, unstructured domain knowledge into a model that captures the key concepts, properties, and relationships relevant to the ontology's domain. In the context of NOnt+S, the focus of the conceptualization was on the integration of geospatial elements into the existing narrative framework, ensuring that the ontology could effectively represent both narrative structures and spatial relationships.
+
+Conceptualization involves the organization and structuring of knowledge in such a way that it can be expressed clearly and formally. The output of this phase is a high-level, abstract representation of the domain, known as a \textit{conceptual model}, which serves as a blueprint for the later formalization and implementation stages. The main objectives of conceptualization are to identify the key concepts within the domain, define the relationships between them, and ensure semantic clarity. This phase also models the domain properties, detailing the attributes that define each concept.
+
+The conceptualization phase posed several challenges, particularly in integrating spatial elements into an existing narrative framework. One of the primary considerations was ensuring semantic consistency, so the geospatial concepts introduced did not conflict with or overly complicate the existing narrative ontology. Careful definition of terms and relationships was required to maintain clarity across both domains.
+
+Another important consideration was determining the appropriate level of granularity for geospatial entities. For instance, decisions had to be made regarding whether the concept of Place should represent broad geographic regions or more specific locations like buildings or landmarks. Balancing granularity was crucial to ensure that NOnt+S could be applied to a wide range of narrative use cases without becoming overly complex.
+
+Interoperability was also a key factor. The new geospatial concepts and relationships needed to be compatible with existing ontologies and standards, such as GeoSPARQL and the W3C Basic Geo Vocabulary. Ensuring this compatibility facilitated the reuse and integration of NOnt+S with other systems and ontologies.
+
+\section{Mathematical Specification}\label{IV-sec:mathematical-specification}
+
+The mathematical specification phase transforms the foundational concepts established during conceptualization into a rigorous mathematical framework. This process involves formalizing entities such as places, events, and narratives, thereby enabling precise logical reasoning and computation within the context of geospatial systems. By rigorously defining these constructs, we ensure that the proposed ontology is not only logically coherent but also computationally feasible, facilitating its integration into applications that require exact and reliable reasoning.
+
+The cornerstone of our mathematical specification is a first-order language, denoted as $L_{ng}$. This language is designed to capture the semantics of \acrshort{NOntLabel} with precision, extending and adapting the constructs introduced in \cite{meghiniRepresentingNarrativesDigital2021}. Specifically, $L_{ng}$ builds upon the existing narrative-oriented language $L_n$ developed in that work, which was meticulously crafted to formalize the semantics underlying a comprehensive narrative ontology.
+
+$L_n$ serves as a foundational model for representing and reasoning about narratives, encapsulating the relationships between narrative elements such as events, agents, and temporal structures. Our extension, $L_{ng}$, retains the essential features of $L_n$ while augmenting it to address the unique requirements of geospatial narrative representation. This adaptation allows $L_{ng}$ to articulate spatial semantics alongside the temporal and causal semantics originally addressed in $L_n$. Consequently, $L_{ng}$ not only inherits the expressivity needed for narrative reasoning but also incorporates enhancements that support geospatial reasoning within narratives, a crucial feature for applications that model complex interactions between spatial and temporal phenomena.
+
+The formalization in $L_{ng}$ employs a structured vocabulary that includes predicates and functions specifically designed to represent places, events, and the intricate relationships among them. By grounding these concepts in a well-defined formal language, we create a robust theoretical foundation that enables computational models to reason about narratives with spatial and temporal dimensions seamlessly. This formal language provides the mechanisms for defining axioms and inference rules that enforce consistency and support automated reasoning, making it an essential component of our approach to narrative representation.
+
+The mathematical specification articulated through $L_{ng}$ forms a bridge between conceptual abstractions and implementable models. This integration ensures that narratives and their geospatial contexts are treated in a manner that is both theoretically sound and practically applicable, facilitating advances in geospatial reasoning and narrative analysis.
+
+\section{Implementation}\label{IV-sec:implementation}
+
+
+\subsection{Formalization}\label{IV-subsec:formalization}
+
+The formalization phase involved transforming the conceptual model of geospatial narratives into a structured ontology, employing \acrshort{OWLLabel} 2 DL \cite{OWLWebOntologya} as the foundational language. The choice of \acrshort{OWLLabel} 2 DL was driven by its high expressive power coupled with decidability, which provides a crucial balance between rich semantic representation and computational tractability. This ensures that the ontology can accommodate the intricate relationships and constraints inherent to the domain of geospatial narratives while supporting logical reasoning processes.
+
+\acrshort{OWLLabel} 2 DL’s extensive capabilities in modeling hierarchical structures and relational mappings were instrumental in capturing the domain’s semantic complexity. The language’s support for expressive constructs allowed the formalization to reflect the nuanced interdependencies between geospatial elements. By leveraging \acrshort{OWLLabel} 2’s mechanisms, the ontology could represent both taxonomic hierarchies and sophisticated relational networks, which are essential for encapsulating the domain's multifaceted nature. Consequently, the formalization is capable of supporting inferences that extend beyond basic data retrieval, enabling reasoning about spatial and temporal relationships embedded within narratives.
+
+The development of NOnt+S required the strategic use of \acrshort{OWLLabel}’s constructs to align closely with the geospatial concepts identified during the conceptual modeling stage. This involved defining classes to represent primary ontological concepts such as locations, events, and entities participating in geospatial narratives. Each class was meticulously crafted to reflect the essential characteristics of these entities, while maintaining a coherent and systematic ontological structure. The properties in \acrshort{OWLLabel} were designed to express the diverse and complex relationships between these concepts, distinguishing clearly between spatial, temporal, and thematic dimensions. Object properties facilitated the representation of connections among entities, such as the spatial or temporal relationships between events and locations. In contrast, data properties were used to describe specific attributes or values associated with these entities, enhancing the ontology’s descriptive power.
+
+To enforce domain-specific rules and maintain logical consistency, the formalization incorporated constraints expressed as \acrshort{OWLLabel} restrictions. These restrictions enabled the precise articulation of rules governing spatial and temporal relationships, such as containment hierarchies, proximity requirements, and chronological sequences. For example, spatial containment constraints ensured that the ontology could model how certain locations are nested within others, while temporal restrictions helped define permissible sequences of events. Such restrictions serve not only to enhance semantic accuracy but also to support inferential reasoning, allowing the ontology to draw meaningful conclusions about spatial and temporal patterns within geospatial narratives.
+
+Overall, the formalization approach sought to maximize semantic expressiveness while preserving logical rigor. By grounding NOnt+S in \acrshort{OWLLabel} 2 DL, the ontology is equipped to handle complex reasoning tasks, making it a powerful tool for analyzing and interpreting geospatial narratives. This robust design underpins applications that require advanced inferential capabilities, thereby bridging the gap between conceptual modeling and computational reasoning in the realm of geospatial systems.
+
+\subsection{Integration}\label{IV-subsec:integration}
+
+The integration phase was a pivotal step in enhancing the semantic richness of NOnt+S, achieved through the strategic reuse of established ontologies to incorporate well-defined geospatial concepts. This phase built on the structural foundations laid by the Narrative Ontology \cite{meghiniRepresentingNarrativesDigital2021}, ensuring that NOnt+S would benefit from the extensive conceptual groundwork already in place. The integration encompassed elements from CIDOC CRM \cite{doerrCIDOCConceptualReference2007a}, LRMoo \cite{rivaLRMooHighlevelModel2022}—the successor of FRBRoo \cite{doerrFRBROOCONCEPTUALMODEL2008}—and \acrshort{OWLLabel} Time \cite{TimeOntologyOWL}, effectively embedding temporal, spatial, and cultural semantics into the ontology. This approach enriched NOnt+S, allowing it to capture narrative structures while also accommodating precise spatial and temporal dimensions.
+
+The inclusion of GeoSPARQL \cite{matthewperryOGCGeoSPARQLGeographic2012} was instrumental in equipping NOnt+S with the ability to perform advanced geospatial reasoning and querying. By integrating GeoSPARQL, the ontology gained access to a suite of spatial predicates and functions specifically designed for \acrshort{GISLabel} contexts within a semantic web framework. This extension went beyond mere spatial representation, facilitating sophisticated geospatial queries that operate through \acrshort{SPARQLLabel} endpoints. The ontology now supports a diverse range of geospatial data types and relationships, including topological operations and distance computations, thus enabling users to perform complex spatial analyses. Queries can efficiently address geographic scope, spatial containment, and proximity, which are essential for comprehensive geospatial narrative analysis.
+
+The integration of \acrshort{OWLLabel} Time further augmented NOnt+S by providing a robust framework for modeling temporal properties and relationships. This enhancement allowed for the detailed representation of sequences, durations, and temporal alignments within narratives, thereby strengthening the ontology’s ability to handle both time-dependent and spatially bound information. The combined use of GeoSPARQL and \acrshort{OWLLabel} Time ensured that NOnt+S could seamlessly represent and reason about both spatial and temporal aspects, making it highly versatile for geospatial narrative applications.
+
+A crucial element of this integration was the ontological alignment with \acrshort{CIDOCCRMLabel}, a shared upper-level ontology inherited from NOnt. This alignment ensured that the classes, properties, and relationships within NOnt+S remained coherent and interoperable, facilitating a unified interpretative framework across narrative and geospatial domains. By leveraging this common ontological structure, discrepancies in class hierarchies and property semantics were minimized, which significantly streamlined the integration process. The result is a seamless and logically cohesive extension that adheres to semantic web standards, promoting greater interoperability and facilitating future expansions.
+
+Reusing and aligning with established ontologies such as CIDOC CRM and LRMoo provided significant advantages. It not only saved development time but also ensured that NOnt+S remained compatible with widely recognized cultural and bibliographic standards. This fidelity to established frameworks enabled the ontology to accurately represent cultural and narrative information while benefiting from the mature conceptual models offered by these ontologies. \acrshort{OWLLabel} Time and GeoSPARQL further provided a solid foundation for temporal and spatial reasoning, respectively, enhancing the ontology’s capability to support complex interdisciplinary queries. 
+
+Through this integration phase, NOnt+S emerged as a semantically robust ontology, adept at bridging the narrative, temporal, and geospatial dimensions within the semantic web. It stands ready to facilitate advanced analysis and reasoning across these domains, making it a valuable resource for researchers and practitioners engaged in geospatial and narrative studies.
+
+
+\subsection{Technical Implementation}\label{IV-subsec:technical-implementation}
+
+The implementation of NOnt+S was executed using the Jena Fuseki platform\cite{ApacheJenaFuseki}, chosen for its robust support of \acrshort{RDFLabel} storage and querying as well as its compatibility with \acrshort{OWLLabel} ontologies. Through Jena Fuseki, the \acrshort{OWLLabel} representation of NOnt+S was codified, facilitating its seamless integration with the existing NOnt framework. This integration not only allowed for consistent management of narrative and geospatial data within a unified repository but also ensured that the ontology could leverage the expressive power of \acrshort{OWLLabel} within a scalable environment optimized for \acrshort{SPARQLLabel}-based retrieval.
+
+The Jena Fuseki platform enabled NOnt+S to function as a \acrshort{SPARQLLabel} endpoint, allowing queries to be executed efficiently against the \acrshort{RDFLabel}-based ontology. By indexing the ontology’s classes, properties, and relationships, Jena Fuseki enhanced query performance, particularly for complex spatial and temporal queries. Moreover, it offered support for advanced \acrshort{SPARQLLabel} features, such as property paths and FILTER expressions, which were instrumental in refining query accuracy and relevance. This infrastructure supports scalable access to NOnt+S, accommodating future expansions or additional datasets, thus promoting long-term adaptability.
+
+Ultimately, the implementation of NOnt+S on Jena Fuseki exemplifies a systematic approach to ontology deployment that bridges \acrshort{OWLLabel}’s rich semantic capabilities with \acrshort{RDFLabel}’s flexibility and \acrshort{SPARQLLabel}’s querying precision. This implementation framework not only confirms the ontology’s operational functionality but also lays a foundation for its application in real-world geospatial narrative analyses, supporting the extraction of nuanced spatial and narrative insights through structured queries.
+
+
+\section{Evaluation and Maintenance}\label{IV-sec:evaluation-maintenance}
+
+The evaluation and maintenance of NOnt+S were integral to its development, ensuring that the ontology achieved a high standard of logical rigor and domain relevance. This process was conducted iteratively throughout each phase of the ontology's life cycle, utilizing automated reasoning tools and expert feedback to refine and improve the ontology's structure and functionality. The iterative nature of the evaluation allowed for continuous feedback and enhancements, making the ontology adaptable and scalable to evolving requirements.
+
+A cornerstone of the evaluation process was the verification of logical consistency, accomplished using reasoning tools such as the Pellet reasoner \cite{sirinPelletPracticalOWLDL2007}. Logical consistency checks ensured the ontology's coherence by systematically identifying and resolving any contradictions or unsupported inferences within the class hierarchy and the relationships among entities. The reasoner scrutinized the ontology for potential issues that could compromise reliability in knowledge representation tasks, such as contradictory constraints or unintended logical consequences. This step was crucial for confirming that NOnt+S adhered to the intended logical structure and functioned as expected under inference operations, thus supporting robust semantic reasoning and query execution.
+
+The validation process also involved consultation with domain experts to ensure the ontology's conceptual model accurately represented the intricacies of geospatial narratives. Expert feedback was invaluable in refining NOnt+S, providing insights that enhanced its relevance and applicability in real-world scenarios. These consultations helped align the ontology with domain-specific requirements, ensuring it encapsulated the semantic richness necessary for effective narrative representation and analysis.
+
+To further assess NOnt+S’s effectiveness, a series of \acrshort{SPARQLLabel} queries was developed to test the ontology's capability in supporting complex geospatial information retrieval. These queries were carefully constructed to probe the ontology's structural and relational depth, evaluating its performance in diverse data retrieval scenarios that are characteristic of geospatial narratives. For example, one query was designed to extract all locations mentioned within a specific narrative, demonstrating NOnt+S’s spatial reasoning abilities. This query efficiently linked narrative entities to their corresponding geographic references, showcasing the ontology’s capacity to manage spatial relationships and handle the complexity of geospatial dimensions with both precision and flexibility. The results of these queries underscored the ontology’s robustness and highlighted its potential for practical applications in geospatial narrative analysis.
+
+The maintenance of NOnt+S is envisioned as a dynamic and ongoing process. As new geospatial requirements are identified or additional narrative datasets are integrated, regular updates to the ontology will be necessary. This will involve revising existing constructs, introducing new classes and properties, and ensuring alignment with emerging standards in the semantic web community. All updates will be meticulously documented, and subsequent versions of NOnt+S will be published following best practices in ontology management, ensuring transparency and continuity. This commitment to ongoing maintenance will keep NOnt+S relevant and reliable, enabling it to adapt to the evolving landscape of geospatial narrative research.
+
+
+% \section{Conclusion}\label{IV-sec:conclusion}
+
+% The methodology employed in developing NOnt+S follows a structured, iterative process grounded in ontology engineering best practices. By extending the NOnt ontology with geospatial capabilities, NOnt+S enables advanced narrative-driven spatial analysis in digital libraries. The iterative development, reuse of existing ontologies, and rigorous formalization ensure that NOnt+S is both scalable and interoperable within the broader semantic web ecosystem.
+
+

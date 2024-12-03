@@ -44,10 +44,13 @@
 \usepackage{bnf}
 \usepackage{rotating}
 \usepackage{multirow}
+\usepackage{multicol}
 \usepackage{phdtitle}
 \usepackage{paralist}
 \usepackage{bibentry}
-%\usepackage[algochapter]{algorithm2e}
+\usepackage{xcolor}
+\usepackage{pifont} 
+\usepackage[algochapter]{algorithm2e}
 \usepackage[bookmarks=true,
 %pdftex=false,
 bookmarksopen=true,hidelinks]{hyperref}
@@ -61,12 +64,59 @@ bookmarksopen=true,hidelinks]{hyperref}
 \usepackage[utf8]{inputenc}
 %\usepackage{fontspec}
 %\setmainfont{Calibri}
+\usepackage{cleveref}
+
+\usepackage{smartdiagram}
+\usesmartdiagramlibrary{additions}
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.arrows}
+\usetikzlibrary{arrows, backgrounds, calc, hobby, positioning, chains}
+
+\newcounter{sdpic}
+\hyphenation{man-u-scripts}
+
 %% \hyphenation{} is used to force the 
 \hyphenation{}
 
 \newtheorem{Definition}{Definition}[section]
 
-\lstset{tabsize=2,basicstyle=\footnotesize,breaklines=true}
+% Define custom colors if needed
+\definecolor{BurntOrange}{RGB}{204,85,0}
+\definecolor{MidnightBlue}{RGB}{25,25,112}
+\definecolor{Maroon}{RGB}{128,0,0}
+\definecolor{CustomGreen}{RGB}{143, 209, 79}
+\definecolor{CustomBlue}{RGB}{45, 155, 240}
+\definecolor{CustomYellow}{RGB}{250, 199, 16}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+% \lstset{tabsize=2,basicstyle=\footnotesize,breaklines=true}
+\lstset{escapeinside={/*!}{!*/}}
 
 \usepackage[english,italian]{babel}
 \usepackage{ulem}
@@ -79,14 +129,14 @@ bookmarksopen=true,hidelinks]{hyperref}
 \department {Dottorato di ricerca in Ingegneria dell'Informazione}
 
 % Please fulfil the followed fields with your data
-\author{Name Surname} 
-\title{Title}
-\tutor{Tutor Name}
-\supervisor{Coordinator Name}
+\author{Nicolò Pratelli} 
+\title{Formal Representation of Geospatial Knowledge in Narratives}
+\tutor{Antonella Poggi\\ Prof. Ricardo Nuno Taborda Campos}
+\supervisor{Nicola Tonellotto\\Dr. Valentina Bartalesi Lenzi}
 \titleimage{img/unipi.png} %please not change
-\phdyear{Year}
-\phdmonth{Month}
-\phdcycle{Cycle}
+\phdyear{2024}
+\phdmonth{November}
+\phdcycle{XXXVII Cycle}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Let's Start The Real Document
@@ -129,11 +179,16 @@ bookmarksopen=true,hidelinks]{hyperref}
 \thispagestyle{empty}
     \null\vspace{\stretch {1}}
         \begin{flushright}
-                "A few first rate research papers are preferable to a large number \\
-                that are poorly conceived or half-finished.\\
-                The latter are no credit to their writers and \\
-                a waste of time to their readers"\\
-                Claude Shannon
+                "Home is behind, the world ahead, \\
+                and there are many paths to tread \\
+                through shadows to the edge of night,\\
+                until the stars are all alight"\\
+                J.R.R. Tolkien, The Lord of the Rings
+                % "A few first rate research papers are preferable to a large number \\
+                % that are poorly conceived or half-finished.\\
+                % The latter are no credit to their writers and \\
+                % a waste of time to their readers"\\
+                % Claude Shannon
                 %IRE Transactions on Information Theory (1956), volume 2, issue 1, page 3. Shannon, Claude E. (March 1956), The Bandwagon, 2, doi:10.1109/TIT.1956.1056774.
         \end{flushright}
 \vspace{\stretch{2}}\null
@@ -192,7 +247,7 @@ bookmarksopen=true,hidelinks]{hyperref}
 %Have a look at \gls command... you can refer a term in multiple ways
 \printglossary[type=\acronymtype,title=List of Abbreviations]
 \let\cleardoublepage\clearpage
-\printglossary[title=Notation]
+\printglossary[title=Prefixes]
 \cleardoublepage
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -210,6 +265,17 @@ bookmarksopen=true,hidelinks]{hyperref}
 \input{chapters/chapter1} % uncomment if you want part I
 % Insert further chapters using the following syntax
 % \input{Source_Folder_Name/FileName}
+\input{chapters/chapter2} 
+\input{chapters/chapter3} 
+\input{chapters/chapter4} 
+\input{chapters/chapter5} 
+\input{chapters/chapter6} 
+\input{chapters/chapter7} 
+\input{chapters/chapter8} 
+\input{chapters/chapter9} 
+
+\appendix
+\input{chapters/appendixA} 
 
 
 \cleardoublepage

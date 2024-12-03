@@ -1,94 +1,81 @@
-\chapter{Title chapter 1}
+\chapter{Introduction}\label{chap:introduction}
 
-%============================= INTRODUCTION =================================
-\section{Introduction}\label{sec:i}
-Remember that wherever you want you can cite with \verb.\cite{a1}. \cite{a1}, \cite{b1} and/or \cite{m1} someone.
-Or use \verb.\footnote{That's a footnote}. like this\footnote{That's a footnote} 
-% this is used to include other .tex files in order to split a long document 
+\section{Background and Motivation}\label{I-sec:backroundAndMotivation}
 
-%============================= SECTIONS =================================
+Geospatial knowledge is a foundational element of human cognition and communication, profoundly shaping how we perceive, interpret, and engage with the world. This type of knowledge encompasses information about locations, spatial relationships, movement, and the physical attributes of places, all of which are integral to how humans contextualize information and experiences. Across diverse forms of narrative — including historical records, literary works, journalistic reports, and oral traditions — geospatial elements are woven into the fabric of storytelling to provide context, deepen meaning, and foster a sense of realism. The spatial dimension embedded in narratives enables audiences to visualize settings, understand the significance of events, and interpret interactions between characters and their environments within a spatial context.
 
-\section{New section}
-You can insert a definition
-	\begin{Definition}
-		Unipi: Universit\'a di Pisa
-	\end{Definition}
-	
-\section{Another section}
-	\subsection{And a subsection}
-		In this sub section I will include many images just to make the list of figures meaningful.
+For instance, within literature, studying the paths of medieval pilgrims or tracing the journey of manuscripts from their creation to preservation reveals valuable cultural and historical insights. The examination of pilgrim routes can illuminate the geographic and cultural landscapes they encountered, while tracking manuscripts sheds light on their historical trajectory, contributing to philological and cultural studies. Such investigations highlight the role of geospatial information in enhancing our understanding of historical and cultural narratives.
 
-			\begin{figure}[h!tb]
-				\centerline {\includegraphics[scale=0.6]{img/unipi.png}}
-				\caption{Caption of this Unipi image.}
-				\label{fig:leet}
-			\end{figure}
+However, while geospatial information is critical to the understanding of narratives, it is frequently conveyed through natural language, which is inherently nuanced, metaphorical, and context-dependent. This informal representation of spatial knowledge poses significant challenges for computational processing, as traditional data extraction techniques often struggle to capture the ambiguity and variability inherent in human language. Consequently, computational representations of spatial knowledge extracted from narratives are often incomplete or inaccurate, limiting their utility in deeper analysis and reasoning.
 
-\section{New section}
-	\subsection{And also many sub}
-		\subsubsection{Or again more nested}
-			\begin{itemize}
-				\item item 1
-				\item item 2
-				\item item 3
-			\end{itemize}			
-			
-\section{New section}
-This is an example of table. You can see it in Table~\ref{tab:TableName}. 
+Semantic Web technologies offer promising solutions to these challenges by enabling the structured, machine-readable representation of data. Through Semantic Web frameworks, data can be interoperable and enriched with reasoning capabilities, thus facilitating more advanced and precise analysis. Ontologies — a core component of the Semantic Web — support the formalization of domain-specific knowledge by defining concepts, relationships, and constraints in a way that computational systems can readily process. These structured frameworks not only ensure consistency but also enable reasoning, allowing for the inference of new knowledge beyond the explicitly available data.
 
- \begin{table}[h!tb]
-   \centering \caption{Table caption}
-   \label{tab:TableName}
-   \vskip 0.2cm
-   %%
-   \scalebox{0.90}{
-	    %% The {|c|c|c|c|c|} define the number of columns.
-	    %% c means centered
-	    %% | defines a vertical line between two columns 
-	    \begin{tabular}{|c|c|c|}
-	      \hline
-	      Col 1 & Col 2 & Col2  \\
-	      %% \\ force a newline without creating an horizontal line
-	      Dim C.1 & Dim C.3 & Dim C.3 \\
-	      %% \hline create an horizontal line between two rows
-	      \hline
-	      Data 1.1 & Data 1.2 & Data 1.3 \\
-	      \hline
-	      Data 2.1 & Data 2.2 & Data 2.3 \\
-	      \hline
-	      Data 3.1 & Data 3.2 & Data 3.3 \\  
-	      \hline
-	    \end{tabular}
-	 }
- \end{table}
+Despite these advancements, a critical gap remains in aligning the nuanced geospatial aspects of narratives with the structured requirements of computational systems. Current ontologies often lack the capacity to fully capture the complexity of spatial relationships within narratives, particularly when addressing temporal progression, subjective spatial experiences, and implicit spatial cues embedded in language. Addressing this gap requires a more sophisticated approach to representing geospatial knowledge within narrative contexts.
 
-\section{You can do as many section as you want}
-The following equation has been created using \verb.$$.: $ y_1 = a*x + b$.
+This research seeks to overcome these limitations by developing a formal framework for representing geospatial knowledge embedded in narratives. Central to this framework is a dual reasoning capability that combines semantic and geospatial inference, enabling the derivation of new insights from narrative data. By incorporating a semantic reasoner, the framework allows for the interpretation of relationships and concepts implicit within the narrative, while the geospatial reasoning component grounds these interpretations within specific spatial-temporal contexts. In addition, this framework explores the potential for visualizing geospatial narratives through Story Maps, which can illustrate spatial-temporal progressions within narratives, thereby enhancing interpretative and educational applications.
 
-%% \smallskip introduces a small vertical skip
-\smallskip
+The overarching aim of this work is to advance computational understanding and processing of spatial information within narrative contexts. This approach has significant implications for multiple research fields, particularly for facilitating interdisciplinary knowledge sharing, enriching the dissemination of scientific findings, and enhancing educational frameworks. A notable contribution of this work lies in its adherence to the principles of \acrfull{FAIRLabel} data \cite{niccolucciDigitalArchaeologyDataCentric2020, wilkinsonAddendumFAIRGuiding2019}. By supporting FAIR data standards, the proposed framework enables the generation of \acrfull{LODLabel} \cite{timberners-leeLinkedDataDesign2006}, which in turn simplifies the management, integration, and cross-referencing of spatio-temporal, textual, and multimedia data from a variety of sources. Such interoperability is essential for constructing cohesive narratives that are semantically consistent and can be seamlessly accessed across different platforms and user communities. This framework's adaptability allows it to be applied to diverse scientific fields, including cultural heritage conservation, ecosystem research, sustainable resource management, niche product promotion, and tourism. Through a unified semantic structure, the framework facilitates spatial storytelling, which not only promotes data interoperability but also deepens user engagement by presenting complex information in a spatially and temporally organized format. Consequently, this research extends beyond traditional data representation models, advancing a vision of a semantically enriched, interconnected web of knowledge that supports both the nuanced understanding of scientific content and the broader goals of accessible, spatially anchored storytelling.
 
-%% \noindent is used to eliminate the blankline and the paragraph settings 
-\noindent
-This is a more complex equation: \[ y_2 = a*x + b \], created using \verb.\[ \].
+\section{Research Objectives}\label{I-sec:researchObjectives}
 
-%% \bigskip introduces a big vertical skip
-\bigskip
+The primary objective of this research is to develop a robust and effective framework for the formal representation of geospatial knowledge embedded within narratives, utilizing Semantic Web technologies. Achieving this objective involves several key aims that build a structured approach toward creating a comprehensive ontology for geospatial narratives.
 
-\noindent
-This is, (\ref{eq:eeq1}), an enumerated equation: 
 
-	\begin{equation}\label{eq:eeq1}
-		y_3 = a*x + b
-	\end{equation}
+The first aim is to conduct a thorough analysis of the structural components within narratives and geospatial data modeling. This involves a detailed examination of how narrative elements express spatial information, particularly in how they communicate location, movement, and spatial relationships. Additionally, this aim includes an evaluation of existing geospatial data models and ontologies, assessing their strengths and limitations in capturing the intricacies of geospatial narratives. Understanding these foundational elements informs the design of a more nuanced representation that aligns with the complexity of spatial and temporal dimensions in narratives.
 
-, created using:
+The second aim is to design and implement an extension of the existing \acrfull{NOntLabel}\cite{meghiniRepresentingNarrativesDigital2021} to effectively model geospatial narratives. Narratives, conveyed through various media such as text, images, and videos, are fundamental to human knowledge and cultural heritage. NOnt provides a structured means to digitally represent these narratives, making them accessible for machine processing and enabling tasks like discovery, comparison, and generation in digital environments, such as digital libraries. This new ontology, referred to as \acrfull{NOnt+SLabel}, captures critical geospatial elements and their interrelationships, incorporating essential narrative nuances such as temporal dynamics, contextual dependencies, and subjective spatial experiences. Implementing NOnt+S will utilize \acrfull{OWLLabel}\cite{OWLWebOntologya,OWLWebOntologyb,OWLWebOntologyc} to ensure a logical and interoperable structure, enabling reasoning and supporting complex querying. To further enhance interoperability and reusability, the ontology will incorporate established ontologies and adhere to recognized Semantic Web standards, facilitating seamless integration with other knowledge frameworks.
 
-	\begin{verbatim}
-		\begin{equation}\label{eq:eeq1}
-		    y_3 = a*x + b
-		\end{equation}
-	\end{verbatim}
+The third and final aim is to validate the ontology through application in case studies drawn from two distinct scientific domains, thereby demonstrating its applicability and effectiveness in real-world settings. The first domain, bioeconomy studies, focuses on mountain ecosystems rich in geospatial and geographical information. Here, narratives are used to provide deeper insights into these ecosystems, making them accessible and comprehensible to both scholars and the public. The second domain involves the study of medieval or Renaissance manuscripts within geographic literature, which often contain complex layers of geospatial information embedded in both content and preservation context. Through these case studies, the ontology’s capacity to accurately and comprehensively represent geospatial knowledge will be evaluated. Additionally, the validation process will assess NOnt+S’s utility for various computational tasks, such as querying, reasoning, and integration with other datasets, determining the ontology's ability to support data interoperability and enable enhanced insights across domains.
 
-It is also possible to insert acronyms, after definition in \textit{Acronyms} file, like \acrshort{fpsLabel} which stands for \acrlong{fpsLabel} or \acrshort{SNRLabel} which stands for \acrlong{SNRLabel}.
-Please define the notation at the beginning, defining operators and symbols in \textit{Notation} file, such as \gls{matrix_channel}, \gls{trasp_x}, \gls{vec_x}, \gls{floor_funct}.
+\section{Research Questions}\label{I-sec:researchQuestions}
+
+To address the complexities of geospatial knowledge representation in narrative contexts, this research is guided by three primary questions. These questions provide a framework for evaluating how well geospatial elements can be integrated and reasoned about within narratives through Semantic Web technologies, specifically within an ontology-driven approach. They also explore the computational requirements necessary for effective representation, querying, and visualization of this information. 
+
+The first research question asks:
+
+\begin{quote}
+\emph{How can the NOnt ontology be extended to improve the representation and reasoning of geospatial information?}
+\end{quote}
+
+This question seeks to explore how \acrshort{NOntLabel}\cite{meghiniRepresentingNarrativesDigital2021}, can be expanded to include detailed geospatial elements and relationships. This research assumes that a more precise and expressive geospatial component is necessary to capture complex spatial dynamics present in narratives, such as shifting settings, spatially grounded character interactions, and evolving plot lines within geospatial frameworks. A core aspect of this question involves investigating ways to represent both qualitative and quantitative aspects of geospatial information, such as place hierarchies, distances, and temporal contexts tied to spatial elements. Additionally, it involves examining how such an ontology can support reasoning processes that enable the inference of new spatial knowledge, which could provide deeper insights into narrative structure. The design and implementation of the extended NOnt+S ontology will be evaluated based on its capability to represent nuanced geospatial information accurately and efficiently within diverse narratives.
+
+The second research question focuses on the querying and retrieval of geospatial data from narratives:
+
+\begin{quote}
+\emph{How can narratives be queried through geospatial dimensions to infer new knowledge and insights?}
+\end{quote}
+
+This question addresses the challenges and methodologies for querying narrative content based on spatial and temporal criteria, thereby enabling users to derive insights from geospatially enriched narratives. Specifically, it aims to explore how structured queries — through languages such as \acrshort{SPARQLLabel} — can retrieve and reason over geospatial data within a narrative. The goal is to develop query patterns and techniques that reveal implicit spatial relationships, movement patterns, or spatially related events within a narrative. For instance, such queries might enable the identification of frequently traversed routes in historical texts, significant locations in a character’s journey, or thematic patterns linked to particular regions. By refining these querying capabilities, this research aims to facilitate a more nuanced analysis of narrative data that transcends straightforward keyword or entity-based retrieval, thus contributing to enhanced interpretative capabilities for scholars, researchers, and general users alike.
+
+The third research question examines the presentation of geospatial information within narrative contexts through visualization techniques:
+
+\begin{quote}
+\emph{What are the most effective methods for designing visualizations that integrate geospatial data within narrative contexts?}
+\end{quote}
+
+This question investigates effective visualization techniques for integrating geospatial information within narrative frameworks, aiming to balance accuracy, accessibility, and interpretability. Visualization is a powerful tool for representing complex data structures and making abstract geospatial relationships more tangible for users. In narrative contexts, visualizations may depict the spatial trajectory of characters, the temporal progression of events across regions, or the spatial relationships among significant locations. This research will explore the Sotry Maps methods for designing such visualizations, focusing on how to represent the temporal dimension effectively alongside spatial data, as well as how to accommodate the interpretative nature of narratives. Additionally, it will evaluate the extent to which visualization techniques can aid in generating insights, such as revealing narrative patterns, assisting in the analysis of spatially grounded themes, and enhancing comprehension of intricate geospatial relationships in a manner that remains true to the narrative’s structure and intent.
+
+Together, these research questions establish a framework for investigating the nuanced intersection of geospatial information and narrative structure. By addressing the challenges of representation, querying, and visualization, this research aims to advance methodologies for encoding and processing spatial knowledge in narratives, thus contributing to the broader field of Semantic Web technologies and their application to humanities and cultural studies.
+
+
+\section{Structure of the Thesis}\label{I-sec:StructureOfTheThesis}
+
+This thesis systematically investigates the representation of geospatial knowledge within narratives, integrating insights from narratology, geospatial data modeling, and Semantic Web technologies. It progresses logically from foundational theories to the development, implementation, and evaluation of a specialized ontology for narrative geospatial representation.
+
+Chapter \ref{chap:theoretical_framework} presents the theoretical foundation, examining key concepts in narratology, geospatial data modeling, and Semantic Web technologies. The chapter establishes the conceptual pillars upon which this research is based.
+
+Chapter \ref{chap:overview_narratives} provides an overview of geospatial representation in narratives, reviewing existing ontologies and models. It further discusses spatiotemporal ontologies and introduces the development of an ontology that integrates spatial, temporal, and thematic aspects relevant to narrative contexts.
+
+Chapter \ref{chap:methodology} details the research methodology, outlining each stage of the ontology development lifecycle—from requirements specification to implementation, evaluation, and maintenance. This structured approach ensures a rigorous and comprehensive ontology development process.
+
+Chapter \ref{chap:nont+s} introduces NOnt+S, an ontology designed specifically for geospatial narrative representation. This chapter offers a detailed account of the ontology's conceptualization, formalization, and mathematical specification, covering both qualitative and quantitative representations of place and time in narratives.
+
+Chapter \ref{chap:SW-framework} describes the development of a Semantic Web framework based on the NOnt+S ontology. The chapter addresses techniques for linking and semantic representation, knowledge graph construction, reasoning, storage solutions, and performance benchmarking, thereby supporting the integration of NOnt+S within a Semantic Web environment.
+
+Chapter \ref{chap:evaluation} evaluates NOnt+S through case studies, particularly within the contexts of the \acrfull{MOVINGLabel}\cite{MOVINGHorizon2020} and \acrfull{IMAGOLabel}\cite{IMAGOProject} projects. This chapter examines geospatial enrichment, knowledge graph consistency, and querying capabilities, providing insights into the ontology’s strengths, limitations, and potential for broader application.
+
+% Chapter 8 discusses the research findings in the context of existing approaches, exploring the theoretical and practical implications of the results. The contributions of this work to geospatial ontology, narrative studies, and Semantic Web technologies are highlighted.
+
+Finally, Chapter \ref{chap:conclusion} offers a conclusion, summarizing the thesis findings and outlining the main contributions to knowledge. It also addresses limitations and suggests future research directions, including potential enhancements for NOnt+S and further validation studies.
+
+Each chapter builds upon the last, providing a cohesive exploration of geospatial narrative representation and culminating in a practical, validated ontology framework for narrative studies. The appendix and bibliography enhance the depth and scope of this work by offering additional resources and references.

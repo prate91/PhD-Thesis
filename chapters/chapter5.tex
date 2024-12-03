@@ -1,0 +1,880 @@
+\chapter{An Ontology for Representing Geospatial Narratives}\label{chap:nont+s}
+
+\section{Introduction}\label{V-sec:introduction}
+
+Building on the theoretical framework outlined in Chapter \ref{chap:theoretical_framework} and the implementation of narratives within the Semantic Web discussed in Chapter \ref{chap:overview_narratives}, this chapter focuses on the integration of geospatial concepts into narratives. Following the methodologies presented in Chapter \ref{chap:methodology}, we will introduce and explore the extension of the \acrfull{NOntLabel}: the \acrfull{NOnt+SLabel}.
+
+A central theme of this chapter — rooted in the core concepts of NOnt — is the distinction between \textit{fabula} and \textit{narrative}. \textit{Fabula} refers to the chronological sequence of events, while \textit{narrative} or \textit{plot} represents the structured way in which these events are organized and presented. This distinction is crucial for understanding how temporal and spatial elements interact within a story.
+
+Additionally, this chapter introduces the dual concept of \textit{place}, which is defined both as \textit{Feature Place} and \textit{Geometric Place}. \textit{Feature Place} represents the symbolic and qualitative aspects of a location, shaped by cultural, historical, or narrative contexts. In contrast, \textit{Geometric Place} refers to the precise, quantitative description of a location, defined by coordinates or physical boundaries.
+
+The chapter also delves into the mathematical specification required to conceptualize and formalize geospatial narrative ontology using Semantic Web technologies, such as \acrshort{RDFLabel}, \acrshort{RDFSLabel}, \acrshort{OWLLabel}, and \acrshort{SPARQLLabel}, within the Linked Open Data (LOD) framework. We will detail how NOnt+S extends and integrates existing standards, including CIDOC CRM, GeoSPARQL, NOnt, and CRMgeo.
+
+
+\section{Basic Notions in Geospatial Narratives}\label{V-sec:basicNotionGeospatialNarratives}
+
+As we presented in chapter \ref{chap:theoretical_framework}, in the context of \acrshort{GISLabel} the term geographic feature refers to an abstraction that models real-world phenomena. These features possess both thematic and spatial attributes, which collectively describe various aspects of the represented phenomenon. For instance, the administrative divisions of a country such as Italy can be represented as geographic features. When considering a specific administrative unit like the municipality of Pisa in Italy, its thematic attributes might include its name, population, and socio-economic information. In contrast, the spatial characteristics of this geographic feature describe its location and geometric shape on the Earth's surface \cite{longleyGeographicInformationScience2015}.
+
+This distinction between thematic and spatial attributes forms the foundation for linking geographical information with narratives. Geospatial narratives aim to integrate geographic data with narrative structures, allowing the events and entities described in a narrative to be grounded within a spatial context. Thematic information provides the narrative content, while spatial characteristics anchor this content within the real world, facilitating the exploration of narratives through geographic dimensions.
+
+Discussing the narrative framework, as introduced in chapter \ref{chap:theoretical_framework}, the fabula refers to the chronological order of events as they occur in the real or fictional world of the narrative. It represents the raw, temporal sequence of events without concern for how they are presented or organized in the narrative. For instance, the historical events of a journey, including the departure and arrival, adhere to a specific chronological sequence, forming the narrative structure of a travel story.
+
+The narrative or plot, by contrast, refers to the way in which these events are structured and presented to the audience. The narrative may deviate from the chronological order of the fabula for artistic or rhetorical reasons. In this sense, the narrative includes not just the events but also the author's choices regarding the order, emphasis, and perspective from which the events are told. For example, a travel narrative might begin with the arrival and then later describe the departure, altering the chronological sequence of the fabula to enhance the story’s emotional impact.
+
+The distinction between fabula and narrative is central to understanding how geospatial narratives link space, time, and events. While the fabula provides a temporal framework, the narrative introduces structure and interpretation, both of which can be tied to specific geographic locations, thus enabling spatial reasoning within the story.
+
+Moving forward, for conceptualization, we will use an example that can better illustrate the concept. This example is useful to explain the vast world of geospatial narrative and it is the journey of Leonardo Bruni. He was a Florentine humanist and chancellor, who traveled to Constance between November and December 1414. In a letter from his private epistolary, addressed to Niccolò Niccoli, Bruni recounts his trip to attend the Council of Constance, which aimed to resolve the Western Schism. As he sails across Lake Constance, Bruni carefully observes the landscape: castles and villages lining the shores, the clarity of the water, and the fish inhabiting the lake. His narrative provides both thematic content, where he describes the aesthetic and political environment of the region, and spatial information, where he annotates the dimensions of the lake—estimating it to be 25,000 passes in length (approximately 18.5 km) and between 10,000 and 15,000 passes wide (7 to 11 km). The actual dimensions of the lake are 63 km by 14 km. This qualitative narrative intertwines with the spatial data, as Bruni ties his personal and political observations to specific geographic landmarks. Moreover, Bruni’s detailed observations, such as the outflow of the Rhine River from the lake near the city of Constance, further emphasize the integration of spatial knowledge within the narrative. His recounting extends beyond the natural features, as he describes the city’s social and political organization, creating a richer depiction of the journey. In this way, Bruni's narrative serves as an example that helps illustrate how geospatial narratives blend thematic and spatial content to enhance the understanding of a historical journey within a specific geographic framework.
+
+
+\section{Conceptualization}\label{V-sec:conceptualization}
+
+The conceptualization of geospatial narratives integrates insights from narratology, as presented in Chapter 2, with computational models of narratives, discussed in Chapter 3. The conceptualization is based on the foundational work articulated by \cite{meghiniRepresentingNarrativesDigital2021}, where the Narrative Ontology is formalized and described. This research offers a comprehensive framework for representing narratives in digital environments. This section extends those foundational ideas, focusing on how narratives can be represented within a geospatial context, with a particular emphasis on the critical concept of Place.
+
+In this framework, Place is dissected into two primary dimensions: Feature Place and Geometric Place, which correspond to qualitative and quantitative representations of location, respectively. In particular:
+
+\begin{itemize}
+    \item Feature Place refers to the qualitative, often symbolic, interpretation of a location within a narrative. It encompasses cultural, historical, and contextual aspects that define a place's identity beyond its physical coordinates. This concept is essential for narratives where the meaning of a place is shaped by the events, characters, or social significance attached to it.
+    \item Geometric Place, in contrast, deals with the quantitative, measurable aspects of location, typically represented using precise coordinates or boundaries. It leverages geometric data to position a place within a physical space, relying on systems that define spatial relationships and metrics.
+\end{itemize}
+
+Building on this distinction, the conceptualization explores the relationship among Narrative, Event, and Place. In a geospatial narrative framework, the concept of Narrative serves as the overarching structure that links events and places into a coherent story. Events, which are time-bound occurrences, are situated within particular Places, and their spatial context can influence the interpretation and progression of the narrative. The interplay between Event and Place is crucial, as places can shape the nature of events, and events can redefine or recontextualize places within a narrative.
+
+For the representation of quantitative information, this conceptualization explores the use of a reference space and the relative \acrfull{CRSLabel}. The reference space refers to a context or environment in which objects are assumed to remain stable in position and form, provided there are no significant natural forces or human activities that might alter them. In the reference space, the CRS provides the framework for defining precise locations on Earth, enabling the mapping of Geometric Places in a standardized manner.
+
+This multidimensional approach to Place — integrating both qualitative and quantitative elements — ensures that geospatial narratives can be both meaningfully and accurately represented within computational systems, allowing for a rich interplay between spatial and narrative elements.
+
+\subsection{Feature Place: Qualitative Representation of Place}\label{V-subsec:featurePlace}
+
+In the study of narratology, the importance of a place extends beyond its physical attributes; it includes the cultural, historical, and social contexts that contribute to the unique identity of a location. Feature Place reflects this broader understanding of place, where its meaning is shaped by the events that occur within it and the interpretations of the characters and audiences engaged with the narrative.
+
+For example, in a historical narrative about a battle, the location of the battlefield is not merely a set of coordinates; it is imbued with significance because of the events that occurred there. The place becomes a symbol of victory, loss, or resistance, and these symbolic meanings are integral to the narrative. Similarly, in personal narratives, places such as a childhood home or a significant landmark may carry emotional or psychological weight that goes beyond their geographic position.
+
+In computational terms, representing Feature Place requires capturing this symbolic richness. Ontologies and metadata structures can be used to encode the cultural and historical significance of places, allowing them to be queried and analyzed within a narrative framework. This qualitative dimension is crucial for ensuring that the computational representation of geospatial narratives retains the depth and complexity of human storytelling.
+
+\subsection{Geometric Place: Quantitative Representation of Place}\label{V-subsec:geometricPlace}
+
+In contrast to Feature Place, Geometric Place refers to the quantitative, measurable aspects of location. It is concerned with the physical coordinates, boundaries, and geometric shapes that define a place in a precise and objective manner. Geometric Place aligns with \acrshort{GISLabel} and other tools used to map and analyze spatial data. This dimension allows for the representation of places in terms of longitude, latitude, elevation, and other measurable attributes.
+
+The distinction between Feature Place and Geometric Place is essential for understanding how places are represented in computational systems. While Feature Place captures the narrative and symbolic aspects of location, Geometric Place provides the necessary precision for locating and analyzing these places in physical space. Both dimensions are necessary for a comprehensive representation of geospatial narratives, as they allow for the interplay between the subjective meaning of place and its objective location.
+
+\subsection{Quantitative Representation: Coordinate Reference Systems and Reference Space}\label{V-subsec:quantitative-representation}
+While the qualitative aspects of Place are critical for narrative representation, the quantitative representation of spatial information is equally important, particularly for geospatial narratives that require precise location data. To this end, the conceptualization of geospatial narratives incorporates \acrshort{CRSLabel} and the concept of reference space.
+
+\subsubsection{\acrfullpl{CRSLabel}}\label{V-subsec:crs
+}
+The \acrshort{CRSLabel} provide the framework for defining precise locations on Earth. A CRS is a coordinate-based system that defines how geographic data is projected onto the Earth's surface. This allows for the accurate representation of Geometric Place within a computational model, enabling the use of spatial queries and analyses. CRS are essential for ensuring that places are represented in a way that aligns with geographic standards, allowing for interoperability with \acrshort{GISLabel} systems and other spatial technologies.
+
+\subsubsection{Reference Space}\label{V-subsec:referenceSpace}
+Reference space refers to the broader spatial context in which the narrative unfolds. While CRS provides the technical framework for positioning individual places, Reference Space encompasses the overall spatial environment in which the narrative is situated. This can include both the physical geography of the locations involved and the conceptual or symbolic relationships between them.
+
+For example, in a narrative about a journey, the Reference Space would include not only the specific places visited along the route but also the spatial relationships between them (e.g., distance, direction, and connectivity). By modeling Reference Space, we can capture the structure of the spatial narrative and explore how the arrangement of places influences the progression of the story.
+
+\subsection{Reference Function Between Fabula and Place}\label{V-subsec:referenceFunctionFabulaPlace}
+
+The term *fabula* denotes the sequence of events in a narrative. In geospatial narratives, it is crucial to associate the events of the fabula with their specific geographic locations. This linkage is made explicit through a referencing function that connects places to events within the fabula. For example, Leonardo Bruni’s journey to Constance is tied to the \textit{Feature Place} of Constance and Lake Constance, anchoring these events within their geographic context.
+
+This reference function establishes a temporal-spatial relationship by mapping the chronological structure of events onto spatial locations. It enhances the narrative by allowing for exploration across both temporal and spatial dimensions, enriching the interpretation of the narrative’s progression.
+
+\subsection{Reference Function Between Narrative and Place}\label{V-subsec:referenceFunctionNarrativePlace}
+
+Beyond linking events to places within the fabula, it is also necessary to connect the broader structure of the narrative, or \textit{syuzhet}, with geographic locations. This is achieved through a second \textit{reference function}, which links the narrative as a whole to relevant places. The narrative is viewed as an \textit{information object}, a structured entity that can be associated with specific locations referenced within the story.
+
+For instance, a digital library might host multiple narratives about Leonardo Bruni, each associated with places like Lake Constance, Constance, or Florence. Through the reference function, these narratives can be spatially organized, providing a framework for linking thematic and spatial dimensions of the stories. This enhances the potential for spatial exploration of narratives while preserving their thematic richness.
+
+\subsection{Integration of Fabula, Narrative, and Place}\label{V-subsec:integrationFabulaNarrativePlace}
+
+By establishing reference functions, we create an integrated framework that unifies the temporal, thematic, and spatial components of geospatial narratives. This conceptual model provides a richer representation of narratives, where space is an active, integral element rather than a mere backdrop for events.
+
+For example, in Bruni’s narrative of his journey to Constance, the fabula—comprising events like his departure and crossing of Lake Constance—is tied to the geographic locations through both \textit{Feature Place} and \textit{Geometric Place}. This dual representation of place allows for both thematic and spatial analyses, enhancing the narrative’s depth.
+
+In this model, \textit{Feature Place} provides the qualitative context necessary for meaningful interpretation, while \textit{Geometric Place} ensures spatial accuracy. Together, they offer a holistic understanding of place in geospatial narratives, bridging the gap between thematic exploration and spatial analysis.
+
+\subsection{Temporal Primitives as an Alternative to Allen Operators}\label{V-subsec:temporalPrimitives}
+
+Allen's Interval Algebra \cite{allenMaintainingKnowledgeTemporal1983} is used in \cite{meghiniRepresentingNarrativesDigital2021} to define relationships between time intervals, such as "before", "meets", or "overlaps". However, Allen's operators have limitations, particularly when dealing with incomplete or uncertain temporal data, which is common in fields like archaeology and historical analysis. These limitations can result in ambiguous interpretations and inefficient query structures in computational environments, such as \acrshort{RDFLabel} systems.
+
+To address these issues, Temporal Primitives \cite{papadakisTemporalPrimitivesAlternative2015} offer a flexible alternative for temporal reasoning. Temporal Primitives simplify temporal relations by grouping multiple possible relations (from Allen’s framework) into fewer, generalized categories, reducing the complexity of interpretations when dealing with incomplete data. 
+
+Recognizing that temporal imprecision is an inherent aspect of describing past events, the Temporal Primitives approach to modelling temporal relationships utilizes a "fuzzy interval" framework. This model represents each interval not as a fixed span with exact boundaries, but as a composition of two types of time point sets: the \textit{boundary set} and the \textit{interior set}.
+
+The boundary set defines a flexible, uncertain layer at both the beginning and end of the interval, capturing a range within which the true temporal boundaries might fall. This set allows for a buffer of ambiguity around the endpoints. The interior set, by contrast, comprises the core of the interval and is less ambiguous, representing the time span with higher certainty.
+
+In this framework, the starting and ending points of an interval are represented by two distinct boundary sets—the lower boundary set for the start and the upper boundary set for the end. This is a departure from Allen’s interval algebra, where meeting or alignment of intervals relies on precise endpoint equality. Instead, in the fuzzy interval model, a "meeting" between intervals is understood as an overlap within their boundary zones rather than a single shared point.
+
+Additionally, ordering relationships between intervals, which Allen’s model traditionally expresses as inequalities between endpoints are redefined here as comparisons between ordered sets of time points within the boundary sets. For example, the basic condition that an interval starts before it ends is expressed in this model by requiring that each time point in the lower boundary set occurs before each point in the upper boundary set.
+
+This approach is especially useful in scenarios where temporal data is often incomplete. The use of Temporal Primitives enables more efficient and accurate reasoning, facilitating the integration of narrative data into systems that require temporal flexibility. Additionally, it is possible to express Allen operators using Temporal Primitives, maintaining compatibility between the two approaches.
+
+\section{A Mathematical Specification of the Geospatial Conceptualization}\label{V-sec:mathematicalSpecification}
+
+In this section, we formalize the concepts introduced in the conceptualization (\Cref{V-sec:conceptualization}) using a mathematical structure. This formalization provides a rigorous specification that integrates places, events, and narratives, ultimately facilitating logical reasoning and computation within geospatial systems. The proposed specification builds upon the mathematical structure of NOnt as detailed in \cite{meghiniRepresentingNarrativesDigital2021}. Our model centers on three primary components: \textit{Place}, \textit{Feature Place}, and \textit{Geometric Place}. These components, alongside their relationships and the concepts of Fabula and Narrative, establish the foundation for our geospatial ontology.
+
+Our mathematical specification relies heavily on a specific first-order language, denoted as $L_{ng}$, which captures the intended semantics of \acrshort{NOntLabel}. This language, $L_{ng}$, is a derivative of the language $L_n$, introduced in \cite{meghiniRepresentingNarrativesDigital2021}, which is structured to encapsulate the semantics of a narrative ontology.
+
+In a traditional logical setting, an alphabet is composed of logical and non-logical symbols, which provide the fundamental building blocks for expressing meaning. The alphabet of $L_{ng}$ includes both logical symbols and non-logical symbols. Logical symbols are those with fixed interpretation and usage, including variables represented as $x, y, z, \dots$, the equality symbol ($=$) that represents the standard equality relation, and logical connectives and quantifiers such as conjunction ($\land$), disjunction ($\lor$), and the existential quantifier ($\exists$).
+
+Non-logical symbols are domain-specific and provide the means to represent the unique elements of the narrative ontology. These symbols include constants, often represented by letters such as $a, b, \dots$, which refer to specific entities within our domain, and predicate symbols that may be unary or binary, allowing representation of relationships or properties of entities within the domain.
+
+Additionally, $L_{ng}$ includes predicate symbols to represent and reason about time, which is central to narratives. However, the discussion regarding these temporal predicates and their associated axioms will be postponed until a dedicated section (see Section \ref{V-subsec:temporalPrimitives}).
+
+The terms of $L_{ng}$ are formed by constants and variables, while the atoms are expressions of the form $P(t_1, \dots, t_k)$, where each $t_i$ is a term. A ground atom refers to an atom where each $t_i$ is specifically a constant.
+
+A formula of $L_{ng}$ can take various forms. It may be an atom, such as $P(t_1, \dots, t_k)$, or a co-reference formula, which takes the form $(t_1 = t_2)$, where $t_1$ and $t_2$ are terms indicating that they refer to the same entity. Formulas can also include negation, denoted as $\neg \varphi$, the disjunction of two formulas, represented as $(\varphi \lor \psi)$, or existential quantification, such as $\exists x , \varphi$, indicating the existence of an element satisfying the formula $\varphi$.
+
+A sentence in $L_{ng}$ is a formula where all variables are bound by a quantifier, resulting in no free variables. In other words, a sentence is fully quantified. It is customary in formal logic to consider other logical connectives such as the universal quantifier ($\forall$) and implication ($\rightarrow$) as part of the language, even if they can be derived as abbreviations using the basic set of connectives. Similarly, conjunction ($\land$) is often used in this manner for convenience.
+
+To simplify notation, we omit the explicit use of universal quantifiers when it is clear from the context. This convention allows the focus to remain on the relationships between components and reduces clutter in logical expressions. With this formal structure, $L_{ng}$ enables a precise representation of geospatial components, thereby facilitating logical reasoning and computation across various geospatial systems.
+
+Starting with the definitions, all predicate symbols of $L_{ng}$ denote pairwise disjoint sets, i.e., each predicate symbol corresponds to a unique set that shares no elements with any other, reinforcing the independence of each component within the logical structure.
+\begin{equation}
+A(x) \rightarrow \neg B(x)
+\end{equation}
+\begin{equation}
+P(x, y) \rightarrow \neg R(x, y)
+\end{equation}
+where $A$ and $B$ stand for any two different unary predicate symbols, and $P$ and $R$ stand for any two different binary predicate symbols.
+
+The following equality axioms hold in $L_{ng}$:
+\begin{equation}
+x = x
+\end{equation}
+\begin{equation}
+(x = y) \rightarrow (y = x)
+\end{equation}
+\begin{equation}
+[(x = y) \land (y = z)] \rightarrow (x = z)
+\end{equation}
+\begin{equation}
+(x = y) \rightarrow [A(x) \leftrightarrow A(y)]
+\end{equation}
+\begin{equation}
+[(x_1 = y_1) \land (x_2 = y_2)] \rightarrow [P(x_1, y_1) \leftrightarrow P(x_2, y_2)]
+\end{equation}
+where $A$ and $P$ are as above. We adopt the standard first-order semantics.
+
+By utilizing a derivative first-order language such as $L_{ng}$, we provide a mathematically grounded structure for modeling geospatial narratives. This specification ensures that places, events, and their interrelationships are rigorously defined. Logical structures such as variables, connectives, and quantifiers provide the tools necessary for expressing these relationships, and thus, $L_{ng}$ serves as a foundational element for integrating spatial concepts with narrative structures. This mathematical formalization lays the groundwork for a deeper integration of geospatial reasoning, narrative logic, and computation, ultimately advancing the capacity of geospatial information systems to manage complex narrative data effectively.
+
+\subsection{Entities and Predicates in \( \textsf{L}_{ng} \)}\label{V-subsec:lng}
+
+We define the following sets:
+\begin{align*}
+    \textsf{P}: &  \text{The set of all places.} \\
+    \textsf{FP}: & \text{The set of all feature places.} \\
+    \textsf{GP}: & \text{The set of all geometric places.} \\
+    \textsf{CRS}: & \text{The set of all coordinate reference systems.} \\
+    \textsf{RS}: & \text{The set of all reference spaces.} \\
+    \textsf{E}: & \text{The set of all events (in the fabula).} \\
+    \textsf{N}: & \text{The set of all narratives.} \\
+    \textsf{T}: & \text{The set of all time intervals.} \\
+    \textsf{G}: & \text{The set of geometric representations of places.}
+\end{align*}
+
+The following unary predicates are defined:
+\begin{align*}
+    \textsf{Pl}(p) &: p \in \textsf{P} \text{ is a place}, \\
+    \textsf{FPl}(p) &: fp \in \textsf{FP} \text{ is a feature place}, \\
+    \textsf{GPl}(p) &: gp \in \textsf{GP} \text{ is a geometric place}, \\
+    \textsf{CRS}(c) &: c \in \textsf{CRS} \text{ is coordinate reference system}, \\
+    \textsf{RS}(r) &: r \in \textsf{RS} \text{ is a reference space}, \\
+    \textsf{Ev}(e) &: e \in \textsf{E} \text{ is an event}, \\
+    \textsf{Nar}(n) &: n \in \textsf{N} \text{ is a narrative}, \\
+    \textsf{TI}(t) &: t \in \textsf{T} \text{ is a time interval}, \\
+    \textsf{Geo}(g) &: g \in \textsf{G} \text{ is a geometric representation}.
+\end{align*}
+
+We also define the following binary predicates for relationships between these entities:
+
+\begin{align*}
+    \textsf{IA}(fp, n) &: \text{Feature Place } fp \text{ is about Narrative } n, \\
+    \textsf{HN}(fp, ap) &: \text{Feature Place } fp \text{ has Name } ap, \\
+    \textsf{TP}(e, fp) &: \text{Event } e \text{ tooks at Feature Place } fp, \\
+    \textsf{HG}(fp, gp) &: \text{Feature Place } fp \text{ has Geometric Place } gp, \\
+    \textsf{HGP}(gp, g) &: \text{Geometric Place } gp \text{ has geometric representation } g, \\
+    \textsf{HCRS}(gp, c) &: \text{Geometry place } gp \text{ is express in terms of CRS } c, \\
+    \textsf{Des}(c, r) &: \text{CRS } c \text{ describes reference space } r.
+\end{align*}
+
+Using these predicates, we define axioms that represent the structure of geospatial narratives in NOnt.
+
+\subsection{Axioms in \( L_{ng} \)}\label{V-subsec:axioms-lng}
+
+\subsubsection{Feature Places are a Subset of Places}
+\begin{equation}\label{eq:axiom1}
+    \forall fp \, (\textsf{FPl}(fp) \rightarrow \textsf{Pl}(fp))
+\end{equation}
+This axiom states that all feature places are also places.
+
+\subsubsection{Geometric Places are a Subset of Places}
+\begin{equation}\label{eq:axiom2}
+    \forall gp \, (\textsf{GPl}(gp) \rightarrow \textsf{Pl}(gp))
+\end{equation}
+This axiom states that all geometric places are also places.
+
+\subsubsection{Every Event Happens at Some Feature Place}
+\begin{equation}\label{eq:axiom3}
+    \forall e \, (\textsf{Ev}(e) \rightarrow \exists fp \, \textsf{TP}(e, fp))
+\end{equation}
+This ensures that every event occurs at some feature place.
+
+\subsubsection{Every Feature Place is Associated with a Geometric Place}
+\begin{equation}\label{eq:axiom4}
+    \forall fp \, (\textsf{FPl}(fp) \rightarrow \exists gp \, \textsf{HG}(fp, gp))
+\end{equation}
+This axiom guarantees that each feature place has a corresponding geometric place.
+
+\subsubsection{Geometric Places Have a Representation in Terms of a Coordinate Reference System}
+\begin{equation}\label{eq:axiom5}
+    \forall gp \, (\textsf{GPl}(gp) \rightarrow \exists g \, \textsf{HGP}(gp, g) \land \exists c \, \textsf{HCRS}(gp, c))
+\end{equation}
+This states that every geometric place has a geometric representation and is expressed using a coordinate reference system.
+
+\subsubsection{Coordinate Reference Systems Describe Reference Spaces}
+\begin{equation}\label{eq:axiom6}
+    \forall c \, (\textsf{CRS}(c) \rightarrow \exists r \, \textsf{Des}(c, r))
+\end{equation}
+This axiom ensures that every coordinate reference system describes a reference space.
+
+
+\subsubsection{Every Feature Place Has a Name}
+\begin{equation}\label{eq:axiom7}
+    \forall fp \, (\textsf{FPl}(fp) \rightarrow \exists ap \, \textsf{HN}(fp, ap))
+\end{equation}
+This axiom states that each feature place has a corresponding name.
+
+\section{Temporal primitives as extension of the Language of \( L_{ng} \)}\label{V-sec:temporal-primitives}
+
+
+The NOnt ontology, upon which the NOnt+S extension is built, leverages Allen's temporal model \cite{batsakisTemporalRepresentationReasoning2016}. Given that temporal imprecision is an inherent aspect of describing historical phenomena, a novel approach for representing temporal topology has been introduced in \cite{papadakisTemporalPrimitivesAlternative2015}, based on the concept of fuzzy intervals. In this framework, temporal information is represented as a combination of two sets of time points: the boundary set, which encompasses a fuzzy region where the actual endpoints are located, and the interior set, which forms the core of the interval. As a result, the lower boundary set and upper boundary set define the fuzzy interval’s start and end points, respectively.
+
+To effectively model fuzzy temporal intervals and the relationships between them, we propose an extension to the \( L_{ng} \) language. This extension enables the expression of temporal primitives and relations with greater flexibility and precision, in line with the aforementioned fuzzy temporal model. The objective is to enhance the formalism to capture not only the crisp temporal relations found in Allen's model but also those characterized by uncertainty, vagueness, or imprecision.
+
+\subsection{Syntax of \( L_{ng}^T \)}\label{V-subsec:lngt}
+
+The extended language, denoted \( L_{ng}^T \), includes additional operators and constructs specifically designed for dealing with fuzzy intervals and temporal relations. The core extensions are as follows:
+
+\begin{itemize}
+    \item \textbf{Temporal Variables:} In \( L_{ng}^T \), temporal intervals are denoted by variables such as \( I_A \), \( I_B \), where \( I_A = (A_s, A_e) \) represents an interval with a fuzzy start \( A_s \) and a fuzzy end \( A_e \).
+    
+    \item \textbf{Boundary Sets and Interior Sets:} Each fuzzy interval \( I_A \) is represented by two components:
+    \begin{itemize}
+        \item \textit{Boundary Set:} Represents the fuzzy layer within which the actual endpoints lie, denoted as \( B_s(I_A) \) for the lower boundary and \( B_e(I_A) \) for the upper boundary.
+        \item \textit{Interior Set:} Denoted as \( Int(I_A) \), representing the core interval excluding the boundary zones.
+    \end{itemize}
+    
+    \item \textbf{Primitive Operators:} The set of operators in \( L_{ng}^T \) includes:
+    \begin{itemize}
+        \item \textit{Equality ( = ):} Expresses equality of fuzzy intervals or their endpoints.
+        \item \textit{Before ( < ):} Expresses temporal ordering between two intervals or their boundaries.
+        \item \textit{Before or Equal ( \( \leq \) ):} Introduces imprecision in ordering, indicating that one interval may start or end before or at the same time as another.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Semantics of \( L_{ng}^T \)}\label{V-subsec:lngtsemantics}
+
+The semantics of the extended language build on the fuzzy temporal model. A key aspect is the interpretation of temporal relations between boundary sets of intervals, rather than their precise endpoints. For any two intervals \( I_A \) and \( I_B \):
+
+\begin{itemize}
+    \item \textit{Equality ( = )} is interpreted as an overlap of the boundary sets, rather than strict point equality.
+    \item \textit{Before ( < )} is interpreted as a relation between all points in the boundary sets: \( B_s(I_A) < B_e(I_B) \) indicates that every point in the lower boundary of \( I_A \) precedes every point in the upper boundary of \( I_B \).
+    \item \textit{Before or Equal ( \( \leq \) )} is interpreted as a fuzzy disjunction of temporal possibilities, encompassing both ordering and overlap conditions.
+\end{itemize}
+
+\subsection{Temporal Associations and Complex Expressions}\label{V-subsec:temporalassociations}
+
+The language \( L_{ng}^T \) allows for the combination of multiple temporal primitives using logical connectives such as conjunction (AND), disjunction (OR), and negation (NOT), enabling the representation of complex temporal associations between intervals.
+
+\begin{itemize}
+    \item \textit{Conjunction:} \( (B_s(I_A) < B_s(I_B)) \land (B_e(I_A) \leq B_e(I_B)) \) expresses that \( I_A \) starts before \( I_B \) and ends before or at the same time as \( I_B \).
+    \item \textit{Disjunction:} \( (B_s(I_A) < B_e(I_B)) \lor (B_e(I_A) = B_s(I_B)) \) reflects the imprecise relation where \( I_A \) either starts before or overlaps with \( I_B \).
+\end{itemize}
+
+To express the seven basic and four generalized temporal primitives using the extended language \( L_{ng}^T \), we will define the corresponding relationships between the boundary sets of two intervals \( I_A = (A_s, A_e) \) and \( I_B = (B_s, B_e) \), where:
+
+\begin{itemize}
+    \item \( B_s(I_A) \) and \( B_e(I_A) \) represent the lower and upper boundary sets of interval \( I_A \), respectively.
+    \item \( B_s(I_B) \) and \( B_e(I_B) \) represent the lower and upper boundary sets of interval \( I_B \), respectively.
+\end{itemize}
+
+\subsection{Seven Basic Temporal Primitives}\label{V-subsec:sevenTemporalPrimitives}
+
+\begin{enumerate}
+    \item \textbf{A starts before the start of B:}  
+    \[
+    B_s(I_A) < B_s(I_B)
+    \]
+    This expresses that every point in the lower boundary set of \( I_A \) occurs before every point in the lower boundary set of \( I_B \).  
+    \textit{Allen operators:} A (is) before OR meets OR overlaps OR includes OR finished-by B.
+
+    \item \textbf{A starts before the end of B:}  
+    \[
+    B_s(I_A) < B_e(I_B)
+    \]
+    This expresses that every point in the lower boundary set of \( I_A \) occurs before every point in the upper boundary set of \( I_B \).  
+    \textit{Allen operators:} A (is) before OR meets OR overlaps OR starts OR started-by OR includes OR during OR finishes OR finished-by OR overlapped-by OR equals B.
+
+    \item \textbf{A ends before the start of B:}  
+    \[
+    B_e(I_A) < B_s(I_B)
+    \]
+    This expresses that every point in the upper boundary set of \( I_A \) occurs before every point in the lower boundary set of \( I_B \).  
+    \textit{Allen operators:} A (is) before B.
+
+    \item \textbf{A ends before the end of B:}  
+    \[
+    B_e(I_A) < B_e(I_B)
+    \]
+    This expresses that every point in the upper boundary set of \( I_A \) occurs before every point in the upper boundary set of \( I_B \).  
+    \textit{Allen operators:} A (is) before OR meets OR overlaps OR starts OR during B.
+
+    \item \textbf{A starts at the start of B:}  
+    \[
+    B_s(I_A) = B_s(I_B)
+    \]
+    This expresses that the lower boundary sets of \( I_A \) and \( I_B \) coincide.  
+    \textit{Allen operators:} A (is) starts OR started-by OR equals B.
+
+    \item \textbf{A ends at the start of B:}  
+    \[
+    B_e(I_A) = B_s(I_B)
+    \]
+    This expresses that the upper boundary set of \( I_A \) coincides with the lower boundary set of \( I_B \).  
+    \textit{Allen operators:} A meets B.
+
+    \item \textbf{A ends at the end of B:}  
+    \[
+    B_e(I_A) = B_e(I_B)
+    \]
+    This expresses that the upper boundary sets of \( I_A \) and \( I_B \) coincide.  
+    \textit{Allen operators:} A (is) finishes OR finished-by OR equals B.
+\end{enumerate}
+
+\subsection{Four Generalized Temporal Primitives}\label{V-subsec:fourTemporalPrimitives}
+
+The generalized primitives introduce an additional layer of temporal imprecision by using the “less than or equal” (\( \leq \)) operator, which allows intervals to either precede or coincide with each other.
+
+\begin{enumerate}
+    \item \textbf{A starts before or at the start of B:}  
+    \[
+    B_s(I_A) \leq B_s(I_B)
+    \]
+    This expresses that every point in the lower boundary set of \( I_A \) occurs either before or at the same time as every point in the lower boundary set of \( I_B \).  
+    \textit{Allen operators:} A (is) before OR meets OR overlaps OR starts OR started-by OR includes OR finished-by OR equals B.
+
+    \item \textbf{A starts before or at the end of B:}  
+    \[
+    B_s(I_A) \leq B_e(I_B)
+    \]
+    This expresses that every point in the lower boundary set of \( I_A \) occurs either before or at the same time as every point in the upper boundary set of \( I_B \).  
+    \textit{Allen operators:} A (is) before OR meets OR met-by OR overlaps OR overlapped-by OR starts OR started-by OR includes OR during OR finishes OR finished-by OR equals B.
+
+    \item \textbf{A ends before or at the start of B:}  
+    \[
+    B_e(I_A) \leq B_s(I_B)
+    \]
+    This expresses that every point in the upper boundary set of \( I_A \) occurs either before or at the same time as every point in the lower boundary set of \( I_B \).  
+    \textit{Allen operators:} A (is) before OR meets B.
+
+    \item \textbf{A ends before or at the end of B:}  
+    \[
+    B_e(I_A) \leq B_e(I_B)
+    \]
+    This expresses that every point in the upper boundary set of \( I_A \) occurs either before or at the same time as every point in the upper boundary set of \( I_B \).  
+    \textit{Allen operators:} A (is) before OR meets OR overlaps OR starts OR during OR finishes OR finished-by OR equals B.
+\end{enumerate}
+
+
+\section{Implementing NOnt+S Using the Semantic Web}\label{V-sec:nont+s-SW}
+
+NOnt+S is designed as an extension of the NOnt ontology, expanding its geospatial concepts. However, it is essential to maintain reference to the original NOnt ontology to ensure semantic interoperability. As discussed in Chapter \ref{III-sec:nont}, NOnt concepts are mapped to several standard ontologies, including CIDOC CRM, FRBRoo, and \acrshort{OWLLabel} Time. NOnt+S extends the geospatial dimension by mapping gesopatial concepts to both GeoSPARQL and CRMgeo, establishing an important bridge between these ontologies.
+
+This section will focus specifically on the concepts necessary for understanding NOnt+S and will not repeat all the concepts already mapped in NOnt. These details can be found in \cite{meghiniRepresentingNarrativesDigital2021}. 
+
+\subsection{Mapping between the Mathematical Specification and Reference Ontologies}\label{V-subsec:mappingMathematicalReference}
+
+Below I reported a list mapping the concepts of unary relations from the mathematical specification to the reference ontologies. This mapping ensures that NOnt+S operates within the broader framework of existing ontologies, facilitating the exchange and reasoning of spatial, temporal, and narrative data. This mapping is also presented in Table \ref{tab:mapping}, which provides an overview of how NOnt+S classes align with classes from CIDOC CRM, CRMgeo, and \acrshort{OWLLabel} Time.
+
+\begin{itemize}
+    \item \textsf{Nar} represents narratives and is mapped as a subclass of \texttt{E73 Information Object} in CIDOC CRM, allowing narratives to be treated as information-bearing entities.
+    
+    \item \textsf{Fab}, representing the fabula or period in the narrative structure, is mapped as a subclass of \texttt{E4 Period} from CIDOC CRM, emphasizing its temporal and historical characteristics.
+    
+    \item \textsf{Ev}, representing events, is equivalent to \texttt{E5 Event} in CIDOC CRM, where events are defined as distinct occurrences situated in time and space.
+    
+    \item \textsf{TI} is equivalent to both \texttt{ProperInterval} from \acrshort{OWLLabel} Time and \texttt{E52 Time-Span} from CIDOC CRM, enabling time intervals to be interpreted within both the \acrshort{OWLLabel} Time framework and as historical periods.
+    
+    \item \textsf{Pl}, representing places in NOnt+S, is mapped to \texttt{E53 Place} in CIDOC CRM, aligning with existing spatial representations in ontologies.
+    
+    \item \textsf{FPl} is equivalent to \texttt{SP2 Phenomenal Place} in CRMgeo, representing feature places and observational phenomena in space. \texttt{SP2 Phenomenal Place} is a subclass of both \texttt{E53 Place} and \texttt{GeoSPARQL Feature}.
+    
+    \item \textsf{GPl} is mapped to \texttt{SP5 Geometric Place Expression} in CRMgeo, capturing precise geometric descriptions of places. \texttt{SP5 Geometric Place \\Expression} is a subclass of \texttt{GeoSPARQL Geometry}.
+    
+    \item \textsf{CRS} is mapped to \texttt{SP4 Spatial Coordinate Reference System} in CRMgeo, providing a framework for spatial coordinate systems.
+    
+    \item \textsf{RS}, defining reference spaces, is equivalent to \texttt{SP3 Reference Space} in CRMgeo, supporting spatial reasoning for events and phenomena.
+    
+    \item \textsf{Geo}, representing geometric literals, is equivalent to \texttt{E94 Space Primitive} in CIDOC CRM, allowing geometric expressions to be integrated into ontological reasoning.
+\end{itemize}
+
+\begin{table}[h!]
+\centering
+\caption{Mapping NOnt+S classes to CIDOC CRM, CRMgeo, and \acrshort{OWLLabel} Time}
+\label{tab:mapping}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{NOnt+S Class} & \textbf{Equivalent Class} & \textbf{Source Ontology} \\ \hline
+\texttt{Nar} & \texttt{E73 Information Object} & CIDOC CRM \\ \hline
+\texttt{Fab} & \texttt{E4 Period} & CIDOC CRM \\ \hline
+\texttt{Ev} & \texttt{E5 Event} & CIDOC CRM \\ \hline
+\texttt{TI} & \texttt{ProperInterval} / \texttt{E52 Time-Span} & \acrshort{OWLLabel} Time / CIDOC CRM \\ \hline
+\texttt{Pl} & \texttt{E53 Place} & CIDOC CRM \\ \hline
+\texttt{FPl} & \texttt{SP2 Phenomenal Place} & CRMgeo \\ \hline
+\texttt{GPl} & \texttt{SP5 Geometric Place Expression} & CRMgeo \\ \hline
+\texttt{CRS} & \texttt{SP4 Spatial Coordinate Reference System} & CRMgeo \\ \hline
+\texttt{RS} & \texttt{SP3 Reference Space} & CRMgeo \\ \hline
+\texttt{Geo} & \texttt{E94 Space Primitive} & CIDOC CRM \\ \hline
+\end{tabular}
+\end{table}
+
+In addition to class mappings, NOnt+S also defines binary relations to capture interactions between entities, particularly in the context of events and spatial descriptions. Table \ref{tab:property_mapping_expanded} illustrates these binary relationships and their corresponding mappings to CIDOC CRM, CRMgeo, and GeoSPARQL.
+
+\begin{itemize}
+    \item \textsf{IA} represents the relationship between a Feature Place and a Narrative, equivalent to \texttt{P129 is about} in CIDOC CRM.
+    
+    \item \textsf{HN} represents the relationship between a Feature Place and its Name, equivalent to \texttt{P1 is identified by} in CIDOC CRM.
+    
+    \item \textsf{TP} represents the relationship between an Event (\(e\)) that occurred at a specific Feature Place (\(fp\)), equivalent to \texttt{P7 took place at} in CIDOC CRM.
+    
+    \item \textsf{HG} represents the relationship between a Feature Place (\(fp\)) and its geometric representation (\(gp\)), equivalent to \texttt{hasGeometry} in GeoSPARQL.
+    
+    \item \textsf{HGP} represents the relationship between a Geometric Place (\(gp\)) and its specific geometric representation (\(g\)), equivalent to \texttt{hasSerialization} in GeoSPARQL.
+    
+    \item \textsf{HCRS} represents the relationship between a Geometric Place (\(gp\)) and a Coordinate Reference System (\(c\)), equivalent to \texttt{Q9 is expressed in terms of CRS} in CRMgeo.
+    
+    \item \textsf{Des} represents the relationship between a Coordinate Reference System (\(c\)) and a Reference Space (\(r\)), equivalent to \texttt{Q7 describes} in CRMgeo.
+\end{itemize}
+
+\begin{table}[h!]
+\centering
+\caption{Mapping of NOnt+S Properties to CIDOC CRM, CRMgeo, and GeoSPARQL}
+\label{tab:property_mapping_expanded}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{NOnt+S Property} & \textbf{Equivalent Property} & \textbf{Source Ontology} \\ \hline
+\textsf{IA}(fp, n) & \texttt{P129 is about} & CIDOC CRM \\ \hline
+\textsf{HN}(fp, ap) & \texttt{P1 is identified by} & CIDOC CRM \\ \hline
+\textsf{TP}(e, fp) & \texttt{P7 took place at} & CIDOC CRM \\ \hline
+\textsf{HG}(fp, gp) & \texttt{hasGeometry}, \texttt{hasDefaultGeometry} & GeoSPARQL \\ \hline
+\textsf{HGP}(gp, g) & \texttt{hasSerialization} & GeoSPARQL \\ \hline
+\textsf{HCRS}(gp, c) & \texttt{Q9 is expressed in terms of CRS} & CRMgeo \\ \hline
+\textsf{Des}(c, r) & \texttt{Q7 describes} & CRMgeo \\ \hline
+\end{tabular}
+\end{table}
+
+
+
+\subsection{Turtle Implementation of Classes and Properties}\label{V-subsec:turtle-implementation}
+
+In this section, we detail the implementation of the NOnt+S extension\footnote{The NOnt+S ontology is available for download at: \url{https://dlnarratives.eu/ontology/narrative_ontology.owl}}. As outlined in the mapping section, this extension primarily integrates classes and properties from the CRMgeo ontology and GeoSPARQL. CRMgeo establishes connections between its classes and properties and those defined in GeoSPARQL, facilitating the use of geoinformation systems for spatiotemporal analyses grounded in the semantic framework of CIDOC CRM. For the purposes of this discussion, we adopt Erlangen CRM (\gls{ecrm}) the \acrshort{OWLLabel} representation of CIDOC CRM\footnote{The ECRM implementation was developed by Bernhard Schiemann, Martin Oischinger and Günther Görz at the Friedrich-Alexander-University of Erlangen-Nuremberg, Department of Computer Science, Chair of Computer Science 8 (Artificial Intelligence) in cooperation with the Department of Museum Informatics at the Germanisches Nationalmuseum Nuremberg and the Department of Biodiversity Informatics at the Zoologisches Forschungsmuseum Alexander Koenig Bonn \cite{schiemannErlangenCRMOWL}}. We adopt also the \acrshort{OWLLabel} representation of NOnt, with the prefix \textit{narra}. 
+
+The two foundational classes incorporated into NOnt+S to support geospatial representation are \textit{Event} and \textit{Place}. In CIDOC CRM, events and places are modeled as instances of the classes \texttt{\gls{ecrm}E5 Event} and \texttt{\gls{ecrm}E53 Place}, respectively. The property \texttt{\gls{ecrm}P7 took place at} associates an event with its location. 
+In the \Cref{lst:nont-implementation-1,lst:nont-implementation-2,lst:nont-implementation-3,lst:nont-implementation-4,lst:nont-implementation-5,lst:nont-implementation-6,lst:nont-implementation-7} are defined the main classes and properties employed in NOnt+S in Turtle syntax.
+
+
+\begin{lstlisting}[caption=Definition of classes and property in NOnt+S, label={lst:nont-implementation-1}]
+ecrm:E5_Event
+    a /*!\gls{rdfs}!*/Class, /*!\gls{owl}!*/Class ;
+    /*!\gls{rdfs}!*/isDefinedBy ecrm: ;
+    skos:prefLabel "E5 Event"@en ;
+    /*!\gls{rdfs}!*/subClassOf  ecrm:E4_Period .
+ecrm:E53_Place
+    a /*!\gls{rdfs}!*/Class, /*!\gls{owl}!*/Class ;
+    /*!\gls{rdfs}!*/isDefinedBy ecrm: ;
+    skos:prefLabel "E53 Place"@en ;
+    /*!\gls{rdfs}!*/subClassOf  ecrm:E1_CRM_Entity  .
+/*!\gls{narra}!*/Narrative
+    a /*!\gls{rdfs}!*/Class, /*!\gls{owl}!*/Class ;
+    /*!\gls{rdfs}!*/isDefinedBy /*!\gls{narra}!*/ ;
+    skos:prefLabel "Narrative"@en ;
+    /*!\gls{rdfs}!*/subClassOf ecrm:E73_Information_Object  .
+ecrm:E73_Information_Object
+    a /*!\gls{rdfs}!*/Class, /*!\gls{owl}!*/Class ;
+    /*!\gls{rdfs}!*/isDefinedBy ecrm: ;
+    skos:prefLabel "E73 Information Object"@en ;
+    /*!\gls{rdfs}!*/subClassOf ecrm:E89_Propositional_Object  .
+ecrm:P7_took_place_at
+    a /*!\gls{rdf}!*/Property, /*!\gls{owl}!*/DatatypeProperty ;
+    /*!\gls{rdfs}!*/isDefinedBy ecrm: ;
+    skos:prefLabel "P7 took place at"@en ;
+    /*!\gls{rdfs}!*/domain ecrm:E5_Event ;
+    /*!\gls{rdfs}!*/range ecrm:E53_Place .
+ecrm:P129_is_about
+    a /*!\gls{rdf}!*/Property, /*!\gls{owl}!*/DatatypeProperty ;
+    /*!\gls{rdfs}!*/isDefinedBy ecrm: ;
+    skos:prefLabel "P129 is about"@en ;
+    /*!\gls{rdfs}!*/domain ecrm:E89_Propositional_Object ;
+    /*!\gls{rdfs}!*/range ecrm:E1_CRM_Entity  .
+\end{lstlisting}
+
+Within CRMgeo, the class \texttt{\gls{ecrm}E53 Place} has a subclass, \texttt{\gls{crmgeo}SP2 \\Phenomenal Place}, which: ``comprises instances of \texttt{E53 Place (S)} whose extent and position are defined by the spatial projection of the spatiotemporal extent of a real-world phenomenon that can be observed or measured'' \cite{doerrCRMgeoLinkingCIDOC}. An instance of \texttt{\gls{crmgeo}SP2 Phenomenal Place} represents a location identifiable by an \acrshort{IRILabel} from a recognized gazetteer, such as Geonames for contemporary locations or Pleiades for ancient sites \cite{ahlersAssessmentAccuracyGeoNames2013, simonPleiadesGazetteerPelagios2016}.
+
+\begin{lstlisting}[caption=Definition of classes and property in NOnt+S, label={lst:nont-implementation-2}]
+/*!\gls{geo}!*/Feature
+    a /*!\gls{rdfs}!*/Class, /*!\gls{owl}!*/Class ;
+    /*!\gls{rdfs}!*/isDefinedBy /*!\gls{geo}!*/ ;
+    skos:prefLabel "Feature"@en ;
+    /*!\gls{rdfs}!*/subClassOf /*!\gls{geo}!*/SpatialObject ;
+    /*!\gls{owl}!*/disjointWith /*!\gls{geo}!*/Geometry ;
+    skos:definition "A discrete spatial phenomenon in a universe of discourse."@en .
+/*!\gls{geo}!*/Geometry
+    a /*!\gls{rdfs}!*/Class, /*!\gls{owl}!*/Class ;
+    /*!\gls{rdfs}!*/isDefinedBy /*!\gls{geo}!*/ ;
+    skos:prefLabel "Geometry"@en ;
+    /*!\gls{rdfs}!*/subClassOf /*!\gls{geo}!*/SpatialObject ;
+    /*!\gls{owl}!*/disjointWith /*!\gls{geo}!*/Feature;
+    skos:definition "A coherent set of direct positions in space. The positions
+                    are held within a Spatial Reference System (SRS)."@en .
+\end{lstlisting}
+
+In the NOnt+S model, an instance of \texttt{\gls{ecrm}E5 Event} is directly linked to an instance of \texttt{\gls{crmgeo}SP2 Phenomenal Place} through the property \texttt{\gls{ecrm}P7 took place at}. Additionally, a \texttt{\gls{crmgeo}SP2 Phenomenal Place} is connected to a \texttt{\gls{crmgeo}SP5 Geometric Place Expression}, which ``comprises definitions of places by quantitative expressions, typically geometries or map elements defined in a \texttt{SP4 Spatial Coordinate Reference System}.
+
+\begin{lstlisting}[caption=Definition of classes and property in NOnt+S, label={lst:nont-implementation-3}]
+crmgeo:SP2_Phenomenal_Place
+    a /*!\gls{rdfs}!*/Class, /*!\gls{owl}!*/Class ;
+    /*!\gls{rdfs}!*/isDefinedBy crmgeo: ;
+    skos:prefLabel "SP2 Phenomenal Place"@en ;
+    /*!\gls{rdfs}!*/subClassOf  ecrm:E53_Place, /*!\gls{geo}!*/Feature .
+crmgeo:SP5_Geometric_Place_Expression
+    a /*!\gls{rdfs}!*/Class, /*!\gls{owl}!*/Class ;
+    /*!\gls{rdfs}!*/isDefinedBy crmgeo: ;
+    skos:prefLabel "SP5 Geometric Place Expression"@en ;
+    /*!\gls{rdfs}!*/subClassOf /*!\gls{geo}!*/Geometry .
+\end{lstlisting}
+
+Since \texttt{\gls{crmgeo}SP2 Phenomenal Place} and \texttt{\gls{crmgeo}SP5 Geometric \\Place Expression} are subclasses of \texttt{geosparql:Feature} and \texttt{geosparql:\\Geometry}, respectively, the following properties are utilized to link instances of SP2 with SP5 \texttt{geosparql:hasDefaultGeometry}, which associates a \texttt{geosparql:\\Feature} with its default geometry and \texttt{geosparql:hasGeometry}, which links a \texttt{geosparql:Feature} to its geometric description.
+
+\begin{lstlisting}[caption=Definition of classes and property in NOnt+S, label={lst:nont-implementation-4}]
+/*!\gls{geo}!*/hasGeometry
+    a /*!\gls{rdf}!*/Property, /*!\gls{owl}!*/ObjectProperty ;
+    /*!\gls{rdfs}!*/isDefinedBy /*!\gls{geo}!*/ ;
+    /*!\gls{rdfs}!*/domain /*!\gls{geo}!*/Feature ;
+    /*!\gls{rdfs}!*/range /*!\gls{geo}!*/Geometry ;
+    skos:prefLabel "has Geometry"@en .
+/*!\gls{geo}!*/hasDefaultGeometry
+    a /*!\gls{rdf}!*/Property, /*!\gls{owl}!*/ObjectProperty ;
+    /*!\gls{rdfs}!*/isDefinedBy /*!\gls{geo}!*/ ;
+    /*!\gls{rdfs}!*/domain /*!\gls{geo}!*/Feature ;
+    /*!\gls{rdfs}!*/range /*!\gls{geo}!*/Geometry ;
+    skos:prefLabel "has Default Geometry"@en ;
+    /*!\gls{rdfs}!*/subPropertyOf /*!\gls{geo}!*/hasGeometry .
+\end{lstlisting}
+
+Furthermore, a \texttt{\gls{crmgeo}SP2 Phenomenal Place} is linked via the property \texttt{\gls{ecrm}P1 is identified by} to an instance of \texttt{\gls{ecrm}E41 Appellation}, which provides the place's name in natural language. 
+
+\begin{lstlisting}[caption=Definition of classes and property in NOnt+S, label={lst:nont-implementation-5}]
+ecrm:P1_is_identified_by
+    a /*!\gls{rdf}!*/Property, /*!\gls{owl}!*/DatatypeProperty ;
+    /*!\gls{rdfs}!*/isDefinedBy ecrm: ;
+    skos:prefLabel "P1 is identified by"@en ;
+    /*!\gls{rdfs}!*/domain ecrm:E1_CRM_Entity ;
+    /*!\gls{rdfs}!*/range ecrm:E41_Appellation  .
+\end{lstlisting}
+
+Likewise, \texttt{\gls{crmgeo}SP5 Geometric Place Expression} is connected through the property \texttt{\gls{crmgeo}Q9 is expressed in terms of} to an instance of\\ \texttt{\gls{crmgeo}SP4 Spatial Coordinate Reference System}, defining the spatial reference system employed for the geometry. The \texttt{\gls{crmgeo}SP4 Spatial \\Coordinate Reference System} is further linked to \texttt{\gls{crmgeo}SP3 \\Reference Space} via the property \texttt{\gls{crmgeo}Q7 describes}.
+
+\begin{lstlisting}[caption=Definition of classes and property in NOnt+S, label={lst:nont-implementation-6}]
+crmgeo:SP4_Spatial_Coordinate_Reference_System
+    a /*!\gls{rdfs}!*/Class, /*!\gls{owl}!*/Class ;
+    /*!\gls{rdfs}!*/isDefinedBy crmgeo: ;
+    skos:prefLabel "SP4 Spatial Coordinate Reference System"@en ;
+    /*!\gls{rdfs}!*/subClassOf ecrm:E29_Design_or_Procedure .
+crmgeo:SP3_Reference_Space
+    a /*!\gls{rdfs}!*/Class, /*!\gls{owl}!*/Class ;
+    /*!\gls{rdfs}!*/isDefinedBy crmgeo: ;
+    skos:prefLabel "SP3 Reference Space"@en ;
+    /*!\gls{rdfs}!*/subClassOf  ecrm:E1_CRM_Entity .
+crmgeo:Q9_is_expressed_in_terms_of
+    a /*!\gls{rdf}!*/Property, /*!\gls{owl}!*/ObjectProperty ;
+    /*!\gls{rdfs}!*/isDefinedBy crmgeo: ;
+    /*!\gls{rdfs}!*/domain ecrm:E94_Space_Primitives ;
+    /*!\gls{rdfs}!*/range crmgeo:SP4_Spatial_Coordinate_Reference_System ;
+    skos:prefLabel "Q9 is expressed in terms of"@en .
+crmgeo:Q7_describes
+    a /*!\gls{rdf}!*/Property, /*!\gls{owl}!*/ObjectProperty ;
+    /*!\gls{rdfs}!*/isDefinedBy crmgeo: ;
+    /*!\gls{rdfs}!*/domain crmgeo:SP4_Spatial_Coordinate_Reference_System ;
+    /*!\gls{rdfs}!*/range crmgeo:SP3_Reference_Space ;
+    skos:prefLabel "Q7 describes"@en .  
+\end{lstlisting}
+
+A \texttt{\gls{crmgeo}SP5 Geometric Place Expression} can also be associated with its serialization format using the \texttt{geosparql:hasSerialization} property, which includes two sub-properties:
+
+\begin{itemize}
+    \item \texttt{geosparql:asWKT}, which links to a WKT literal.
+    \item \texttt{geosparql:asGML}, which links to a GML literal.
+\end{itemize}
+
+\begin{lstlisting}[caption=Definition of classes and property in NOnt+S, label={lst:nont-implementation-7}]
+geo:hasSerialization
+    a /*!\gls{rdf}!*/Property, /*!\gls{owl}!*/DatatypeProperty ;
+    /*!\gls{rdfs}!*/isDefinedBy geo: ;
+    skos:prefLabel "has serialization"@en ;
+    skos:definition "Connects a Geometry object with its text-based serialization."@en ;
+    /*!\gls{rdfs}!*/domain geo:Geometry ;
+    /*!\gls{rdfs}!*/range /*!\gls{rdfs}!*/Literal .
+geo:asWKT
+    a /*!\gls{rdf}!*/Property, /*!\gls{owl}!*/DatatypeProperty ;
+    /*!\gls{rdfs}!*/subPropertyOf geo:hasSerialization ;
+    /*!\gls{rdfs}!*/isDefinedBy geo: ;
+    skos:prefLabel "as WKT"@en ;
+    skos:definition "The WKT serialization of a Geometry."@en ;
+    /*!\gls{rdfs}!*/domain geo:Geometry ;
+    /*!\gls{rdfs}!*/range geo:wktLiteral .
+geo:asGML
+    a /*!\gls{rdf}!*/Property ;
+    /*!\gls{rdfs}!*/subPropertyOf geo:hasSerialization ;
+    /*!\gls{rdfs}!*/isDefinedBy geo: ;
+    skos:prefLabel "as GML"@en ;
+    skos:definition "The GML serialization of a Geometry."@en ;
+    /*!\gls{rdfs}!*/domain geo:Geometry ;
+    /*!\gls{rdfs}!*/range geo:gmlLiteral .
+\end{lstlisting}
+
+
+\begin{figure}[ht] % Optional: Placement specifier (ht means here or top)
+\scalebox{0.9}{%
+\begin{tikzpicture}[node distance=2.75cm,>=stealth',
+  vertex style/.style={
+    draw=#1,
+    thick,
+    fill=#1!70,
+    text=white,
+    ellipse,
+    minimum width=2cm,
+    minimum height=0.75cm,
+    font=\small,
+    outer sep=3pt,
+  },
+   vertex2 style/.style={
+    draw=#1,
+    thick,
+    fill=#1!70,
+    text=white,
+    rectangle,
+    minimum width=2cm,
+    minimum height=1cm,
+    font=\small,
+    outer sep=3pt,
+  },
+  text style/.style={
+    sloped,
+    text=black,
+    font=\footnotesize,
+    above
+  }
+]
+
+\node[vertex style=CustomYellow] (SP2) {SP2 Phenomenal Place};
+
+\node[vertex style=CustomGreen, above of=SP2,xshift=-1em] (F) {Feature}
+ edge [<-,cyan!60!blue] node[text style]{subClassOf} (SP2);
+
+\node[vertex style=CustomBlue, left=2cm of SP2,yshift=-4ex] (E5) {E5 Event}
+ edge [->,cyan!60!blue] node[text style]{P7 took place at} (SP2); 
+
+ \node[vertex style=CustomBlue, left=.1cm of SP2,yshift=5em] (E41) {E41 Appellation}
+ edge [<-,cyan!60!blue] node[text style]{P1 is identified by} (SP2); 
+
+\node[vertex style=red, below left of=SP2,yshift=-2em] (N) {Narrative}
+ edge [->,cyan!60!blue] node[text style]{P129 is about} (SP2);
+
+ \node[vertex style=CustomBlue, above right of=SP2,xshift=2em] (E53) {E53 Place}
+ edge [<-,cyan!60!blue] node[text style]{subClassOf} (SP2);
+
+\node[vertex style=CustomYellow, right=1.5cm of SP2,yshift=-4ex] (SP5) {SP5 Geometric Place Expression}
+ edge [<-,cyan!60!blue] node[text style]{hasGeometry} (SP2); 
+
+\node[vertex style=CustomGreen, above of=SP5,xshift=1em] (G) {Geometry}
+ edge [<-,cyan!60!blue] node[text style]{subClassOf} (SP5);
+
+\node[vertex style=CustomYellow, below left=2cm of SP5,yshift=-2em] (SP4) {SP4 Spatial CRS}
+ edge [<-,cyan!60!blue] node[text style]{Q9 is expressed in term of} (SP5);
+
+\node[vertex2 style=CustomGreen, below=2cm of SP5,xshift=-2em] (WKT) {WKTLiteral}
+ edge [<-,cyan!60!blue] node[text style]{asWKT} (SP5);
+
+\node[vertex2 style=CustomGreen, below=2cm of SP5,xshift=5em] (GML) {GMLLiteral}
+ edge [<-,cyan!60!blue] node[text style]{asGML} (SP5);
+
+\node[vertex style=CustomYellow, below=2cm of SP4, xshift=5em] (SP3) {SP3 Reference Space}
+ edge [<-,cyan!60!blue] node[text style]{Q7 describes} (SP4);
+
+
+\begin{pgfonlayer}{background}
+\draw[CustomGreen,fill=orange,dashed,fill opacity=0.1](SP2.south) 
+to[closed,curve through={(SP2.south east).. (SP2.east) .. (SP2.north east) 
+..($(SP2.north east)!0.5!(F.south)$) .. (F.south east).. (F.east) 
+.. (F.north east) .. ($(F.north)!0.75!(E41.north)$) .. (E41.north) 
+.. (E41.north west) .. (E41.west) .. (E41.south west)   
+.. ($(E41.south)!0.65!(SP2.west)$) 
+.. (SP2.west)..(SP2.south west)}](SP2.south);
+\end{pgfonlayer}
+
+
+\begin{pgfonlayer}{background}
+\draw[Maroon,fill=blue,dashed,fill opacity=0.1](G.north) 
+to[closed,curve through={(G.north west).. (G.west) .. (G.south west) 
+..($(G.south west)!0.5!(SP5.north west)$) .. (SP5.north west).. (SP5.west) 
+.. (SP5.south west) .. ($(SP5.south west)!0.75!(SP4.north west)$) .. (SP4.west) 
+.. (SP4.south west) .. ($(SP4.south west)!0.65!(SP3.north west)$) ..(SP3.west) 
+.. (SP3.south west) .. (SP3.south) .. (SP3.south east) .. (SP3.east)
+.. ($(SP3.east)!0.65!(GML.south east)$) .. (GML.east) 
+.. ($(GML.east)!0.35!(SP5.east)$) .. (SP5.east) .. (SP5.north east) 
+.. ($(SP5.north east)!0.35!(G.south east)$) .. (G.east) .. (G.north east)}](G.north);
+\end{pgfonlayer}
+
+\end{tikzpicture}
+}
+\caption{This diagram illustrates the geospatial knowledge modeled in NOnt+S. The classes from CRMgeo are shown in yellow, GeoSPARQL classes in green, CRM classes in blue, and NOnt+S classes in red. The dotted areas represent different conceptual domains: the feature world (orange) and the geometry world (light blue).}
+\label{fig:nont+s}
+\end{figure}
+
+Well-Known Text (WKT) is a markup language used for representing vector geometry objects \cite{WellknownTextRepresentationa}, while the Geography Markup Language (GML) is an XML-based schema defined by the OGC for representing geographic features \cite{burggrafGeographyMarkupLanguage2006, GeographyMarkupLanguagea}.
+
+Given that NOnt+S is compliant with GeoSPARQL, it supports the representation of geographic points using WKT or GML literals. For instance, the geographic coordinates of Pisa, Italy, can be represented in WKT format using Turtle syntax as shown below:
+
+\begin{lstlisting}[caption=A point in WKT, label={lst:point-wkt}]
+<http://www.opengis.net/def/crs/OGC/1.3/CRS84> POINT (10.401 43.715)^^geosparql:wktLiteral
+\end{lstlisting}
+
+The described classes and properties are depicted in Figure \ref{fig:nont+s}.
+
+\subsection{Turtle Implementation of Axioms}\label{V-subsec:turtle-implementation-axioms}
+
+The axioms developed in \( L_{ng} \) have been partially implemented in \Cref{V-subsec:turtle-implementation}, where the first two axioms (\ref{eq:axiom1} and \ref{eq:axiom2}) establish the fundamental hierarchy of places. Specifically, Feature Places and Geometric Places are characterized as subclasses of texttt{ecrm:E53\_Place}, ensuring a basic ontological grounding within the CIDOC CRM framework. However, to fully capture the spatiotemporal and naming requirements central to our ontology, additional axioms are needed. These axioms provide a richer semantic structure that connects events, places, and geometric representations, enabling sophisticated reasoning capabilities.
+
+The axiom presented in \ref{eq:axiom3}, implemented in Turtle and detailed in \ref{lst:axiom3}, ensures that every instance of \texttt{ecrm:E5\_Event} is associated with some spatial locality, specifically a \texttt{crmgeo:SP2\_Phenomenal\_Place}. This relationship is encoded using the \texttt{ecrm:P7\_took\_place\_at} property, which links events to their respective locations. The Turtle implementation leverages an owl:Restriction to enforce that every event must take place at some phenomenal place, thereby ensuring that all events are spatially grounded within the ontology.
+
+\begin{lstlisting}[caption=Axiom \ref{eq:axiom3} in  in NOnt+S, label={lst:axiom3}]
+ecrm:E5_Event rdfs:subClassOf [ 
+    rdf:type owl:Restriction ;
+    owl:onProperty ecrm:P7_took_place_at ;
+    owl:someValuesFrom crmgeo:SP2_Phenomenal_Place
+] .
+\end{lstlisting}
+
+The axiom presented in \ref{eq:axiom4}, implemented in Turtle and detailed in \ref{lst:axiom4}, extends this spatial characterization by asserting that every \texttt{crmgeo:SP2\_Phenomenal\_Place} must be associated with a geometric representation. This association is achieved through the \texttt{geo:hasGeometry} property, which links a phenomenal place to a \texttt{crmgeo:SP5\\\_Geometric\_Place\_Expression}. This axiom guarantees that every feature place has a concrete geometric description, facilitating spatial computations and geographic analyses.
+\begin{lstlisting}[caption=Axiom \ref{eq:axiom4} in  in NOnt+S, label={lst:axiom4}]
+crmgeo:SP2_Phenomenal_Place rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty geo:hasGeometry ;
+    owl:someValuesFrom crmgeo:SP5_Geometric_Place_Expression
+] .
+\end{lstlisting}
+
+The axiom presented in \ref{eq:axiom5}, implemented in Turtle and detailed in \ref{lst:axiom5}, further elaborates on the representation of geometric places. It asserts that \texttt{crmgeo:SP5\_\\Geometric\_Place\_Expression} must have a geometry defined using \texttt{rdfs:\\Literal}. Furthermore, it specifies that each geometric place expression must be associated with a \texttt{crmgeo:SP4\_Spatial\_Coordinate\_Reference\_System}, as expressed through the \texttt{crmgeo:Q9\_is\_expressed\_in\_terms\_of property}. This dual restriction ensures that geometric place expressions are not only well-defined but also articulated within a recognized coordinate reference framework, thus enabling interoperability with external geospatial data sources.
+\begin{lstlisting}[caption=Axiom \ref{eq:axiom5} in  in NOnt+S, label={lst:axiom5}]
+crmgeo:SP5_Geometric_Place_Expression rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty geo:hasGeometry ;
+    owl:someValuesFrom rdfs:Literal
+] ;
+rdfs:subClassOf [
+    rdf:type owl:Restriction ;
+    owl:onProperty crmgeo:Q9_is_expressed_in_terms_of ;
+    owl:someValuesFrom crmgeo:SP4_Spatial_Coordinate_Reference_System
+] .
+\end{lstlisting}
+
+The axiom presented in \ref{eq:axiom6}, implemented in Turtle and detailed in \ref{lst:axiom6}, addresses the semantics of coordinate reference systems. It ensures that every instance of \texttt{crmgeo:\\SP4\_Spatial\_Coordinate\_Reference\_System} describes a \texttt{crmgeo:SP3\\\_Reference\_Space}. The use of an owl:Restriction on the \texttt{crmgeo:Q7\_describes} property ensures that all spatial coordinate systems are conceptually anchored to reference spaces, reinforcing the ontological link between abstract spatial concepts and their physical or cultural referents.
+
+\begin{lstlisting}[caption=Axiom \ref{eq:axiom6} in  in NOnt+S, label={lst:axiom6}]
+crmgeo:SP4_Spatial_Coordinate_Reference_System rdfs:subClassOf [
+    rdf:type  owl:Restriction ;
+    owl:onProperty crmgeo:Q7_describes ;
+    owl:someValuesFrom crmgeo:SP3_Reference_Space
+] .
+\end{lstlisting}
+
+Finally, the axiom presented in \ref{eq:axiom7}, implemented in Turtle and detailed in \ref{lst:axiom7}, guarantees that every \texttt{crmgeo:SP2\_Phenomenal\_Place} has an associated name. This is achieved through the \texttt{ecrm:P1\_is\_identified\_by property}, which connects each phenomenal place to an \texttt{ecrm:E41\_Appellation}, representing the place's name in a human-readable form. This naming convention enhances the expressiveness of the ontology, making it suitable for applications that require place identification and naming, such as historical or cultural narrative systems.
+
+\begin{lstlisting}[caption=Axiom \ref{eq:axiom7} in  in NOnt+S, label={lst:axiom7}]
+crmgeo:SP2_Phenomenal_Place rdfs:subClassOf [
+    rdf:type  owl:Restriction ;
+    owl:onProperty ecrm:P1_is_identified_by ;
+    owl:someValuesFrom ecrm:E41_Appellation
+] .
+\end{lstlisting}
+
+This Turtle implementation encapsulates the core ontological commitments of the NOnt+S extension, seamlessly integrating spatiotemporal concepts with semantic relationships grounded in CIDOC CRM and GeoSPARQL. Through these axioms, we provide a robust framework for modeling geospatial narratives, ensuring both semantic richness and computational tractability.
+
+
+\section{Conclusion}\label{V-sec:conclusion}
+The conceptualization of geospatial narratives offers a robust framework for linking spatial and thematic data, enabling a multifaceted understanding of how events and locations are intertwined within a narrative structure. By distinguishing between qualitative and quantitative representations of place—namely, Feature Place and Geometric Place—the framework allows for a comprehensive representation that captures both the symbolic meaning and the physical coordinates of locations. The integration of Coordinate Reference Systems and Reference Spaces further ensures that these narratives can be accurately mapped within a computational model, facilitating analysis and spatial reasoning. As this model evolves, it not only enhances our capacity to explore and interpret geospatial narratives but also expands the potential of digital environments to manage complex narrative data effectively
+
+
+
+
+
+
+
+
+% As defined in section \ref{subsec:cidoc_crm}, The \acrshort{CIDOCCRMLabel} is an ontology developed for cultural heritage and museum information. It provides a standardized structure for representing the relationships between events, actors, objects, and places in the context of cultural documentation. In the context of geospatial narratives, CIDOC-CRM helps model the relationships between events (fabula), their locations (places), and the narratives that structure these events.
+
+% We use the following CIDOC-CRM classes and properties to specify the core relationships in geospatial narratives:
+
+% \begin{itemize}
+%     \item \textbf{E5 Event}: This class represents an event in the fabula. Each event is linked to temporal and spatial information. 
+%     \item \textbf{E53 Place}: This class represents a location or place where an event occurs. A place can be either a qualitative concept (e.g., a historical site) or a geometric object in space (linked to CRMgeo).
+%     \item \textbf{E4 Period}: This class refers to a set of events that are thematically or temporally linked, such as a historical period or a portion of a narrative.
+%     \item \textbf{P7 Took Place At}: This property links an event (E5) to a place (E53), representing where the event occurred.
+%     \item \textbf{P4 Has Time-Span}: This property connects an event (E5) to a temporal entity, representing when the event took place.
+%     \item \textbf{E41 Appellation}: This class allows places, periods, or events to be assigned names or labels (e.g., "Constance").
+%     \item \textbf{P129 is about}: This property link a Narrative to a Place.
+%     \item \textbf{P12 Occurred in the Presence of}: This property links events to actors, which may include narrative agents (such as protagonists in a historical or fictional narrative).
+%     \item \textbf{E73 Information Object}: This class represens identifiable immaterial items, such as a narrative.
+% \end{itemize}
+
+
+% \subsection{GeoSPARQL}
+
+% GeoSPARQL is a standard for representing and querying geospatial data in RDF. It provides a means for defining geographic features, representing spatial geometries, and conducting spatial queries within a geospatial ontology. GeoSPARQL integrates seamlessly with CRMgeo to provide spatial reasoning capabilities in the context of geospatial narratives.
+
+% The key components of GeoSPARQL include:
+
+% \begin{itemize}
+%     \item \textbf{geo:Feature}: This class represents any spatial feature, such as a place or a geographical object, which can be linked to its geometry.
+%     \item \textbf{geo:hasGeometry}: This property links a geo:Feature to its geometry (e.g., a point, line, or polygon).
+%     \item \textbf{geo:hasDefaultGeometry}: This property links a geo:Feature to its geometry (e.g., a point, line, or polygon).
+%     \item \textbf{geo:Geometry}: This class represents a geometry, which could be a point, line, polygon, or more complex geometric object.
+%     \item \textbf{geo:hasGeometry}: This property links a geo:Feature to its geometry (e.g., a point, line, or polygon).
+%     \item \textbf{geo:hasDefaultGeometry}: This property links a geo:Feature to its geometry (e.g., a point, line, or polygon).
+%     \item \textbf{sf:Point, sf:Polygon, sf:LineString}: These are subclasses of geo:Geometry, representing specific types of geometric objects.
+%     \item \textbf{geo:asWKT}: This property allows the geometry of a place to be expressed in Well-Known Text (WKT), a standard for representing geometric data.
+%     \item \textbf{geo:asGML}: This property allows the geometry of a place to be expressed in Well-Known Text (WKT), a standard for representing geometric data.
+%     \item \textbf{geo:sfWithin}, \textbf{geo:sfIntersects}, \textbf{geo:sfContains}: These are spatial relationships that allow for reasoning about the spatial arrangement of features (e.g., containment, intersection).
+% \end{itemize}
+
+% In the context of geospatial narratives, we can represent a place, such as Constance, as a geo:Feature and associate it with a specific geometry using the geo:hasGeometry property. For example, if Constance is represented as a polygon, its geometric boundaries can be defined using the \textbf{geo:asWKT} property, enabling spatial queries about whether events occurred within this region.
+
+
+% \subsection{CRMgeo}
+
+% CRMgeo is an extension of CIDOC-CRM that incorporates spatial-temporal information more rigorously by integrating it with geospatial standards. CRMgeo provides a bridge between the abstract cultural data represented in CIDOC-CRM and the precise geometric data used in geospatial systems.
+
+% Key CRMgeo classes and properties include:
+
+% \begin{itemize}
+%     \item \textbf{SP2 Phenomenal Place}: This class comprises instances of E53 Place (S) whose extent (U) and position is defined by the spatial projection of the spatiotemporal extent of a real world phenomenon that can be observed or measured. The spatial projection depends on the instance of S3 Reference Space onto which the extent of the phenomenon is projected. In general, there are no limitations to the number of Reference Spaces one could regard, but only few choices are relevant for the cultural-historical discourse. Typical for the archaeological discourse is to choose a reference space with respect to which the remains of some events would stay at the same place, for instance, relative to the bedrock of a continental plate. On the other side, for the citizenship of babies born in aeroplanes, the space in which the boundaries of the overflown state are defined may be relevant (I). Instances of SP2 Phenomenal Place exist as long as the respective reference space is defined. Note that we can talk in particular about what was at a place in a country before a city was built there, i.e., before the time the event occurred by which the place is defined, but we cannot talk about the place of earth before it came into existence due to lack of a reasonable reference space (E).
+%     \item \textbf{SP3  Reference Space}: his class comprises the (typically Euclidian) Space (S) that is at rest (I) in relation to an instance of E18 Physical Thing and extends (U) infinitely beyond it. It is the space in which we typically expect things to stay in place if no particular natural or human distortion processes occur. This definition requires that at least essential parts of the respective physical thing have a stability of form. The degree of this stability (e.g., elastic deformation of a ship on sea, landslides, geological deformations) limits the precision to which an instance of SP3 Reference Space is defined. It is possible to construct types of (non Euclidian) reference spaces which adapt to elastic deformations or have other geometric and dynamic properties to adapt to changes of form of the reference object, but they are of rare utility in the cultural-historical discourse. An instance of SP3 Reference Space begins to exist with the largest thing that is at rest in it and ceases to exist with its E6 Destruction. If other things are at rest in the same space and their time-span of existence falls within the one of the reference object, they share the same reference space (I). It has therefore the same temporal extent (time-span of existence) as the whole of the E18 Physical Things it is at rest with (E). 
+%     \item \textbf{SP4 Spatial Coordinate Reference System}: This class compromises systems that are used to describe locations in a SP3 Reference Space (S). An instance of SP4 Spatial Coordinate Reference System is composed of two parts: The first is a Coordinate System which is a set of coordinate axes with specified units of measurement and axis directions. The second part is a set of reference features at rest in the Reference Space it describes in the real world that relate the Coordinate System to real world locations (U) and fix it with respect to the reference object of its Reference Space. In surveying and geodesy, instance of SP4 Spatial Coordinate Reference System are called a datum. In the case of spatial coordinate reference systems for the earth the datum consists of the reference points and an ellipsoid that approximates the shape of the earth. National systems often use ellipsoids that approximate their territory best and shift them in an appropriate position relative to the earth while WGS84 is an ellipsoid for the whole earth and used in GPS receivers. In engineering a datum is a reference feature of an object used to create a reference system for measurement.The set of reference features in the real world are subset of E26 Physical Feature that are within the described reference space at rest and pertain to the E18 Physical Thing the reference space is at rest with. SP4 Spatial Coordinate Reference Systems have a validity for a certain spatial extent of the SP3 Reference Space and in addition a temporal validity. The combination of coordinate reference system and datum provides a unique identity (I). SP4 Spatial Coordinate Reference Systems may be defined for the earth, moving objects like planes or ships, linear features like boreholes or local systems. If there is a standardised identifier system available, such as EPSG codes, it should be used.
+%     \item \textbf{SP5 Geometric Place Expression}:This class comprises definitions of places by quantitative expressions. An instance of SP5 Geometric Place Expression can be seen as a prescription of how to find the location meant by this expression in the real world (S), which is based on measuring where the quantities referred to in the expression lead to, beginning from the reference points of the respective reference system. A form of expression may be geometries or map elements defined in a SP4 Spatial Coordinate Reference System that unambiguously identify locations in a SP3 Reference Space. Other forms may refer to areas confined by imaginary lines connecting Phenomenal Places such as trees, islands, cities, mountain tops. The identity of a SP5 Place Expression is based on its script or symbolic form (I). Several SP5 Place Expressions can denote the same SP6 Declarative Place. Instances of SP5 Geometric Place Expressions that exist in one SP4 Spatial Coordinate Reference System can be transformed to geometries in other SP4 Spatial Coordinate Reference System if there is a known and valid transformation. The product of the transformation in general defines a new instance of SP6 Declarative Place , albeit close to the source of the transformation. This can be due to distortions resulting from the transformation and the limited precision by which the relative position of the reference points differing between the respective reference systems are determined
+%     \item \textbf{O1 Observable Entity}: This class represents any entity, such as a place or an object, that can be observed within the spatial-temporal framework.
+% \end{itemize}
+
+% By using CRMgeo, we extend the qualitative concept of \textit{Place} in CIDOC-CRM (E53 Place) with a geometric specification. For example, Constance (E53 Place) may be linked to its geometric representation (SP1 Phenomenal Place) using a spatial coordinate system (SP4), enabling precise spatial reasoning about where Bruni's journey occurred.
+
+% The relationship between Spatial Coordinate Reference System and their Reference Space is represented by the property \texttt{Q7 describes}. 
+% This property that link the coordinate reference system in terms of which a Space Primitive (like a Geometric place expression) is formulated is \texttt{Q9 is expressed in term of}.
+
+
+

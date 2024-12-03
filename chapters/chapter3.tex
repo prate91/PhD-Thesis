@@ -1,0 +1,402 @@
+
+\chapter{An Overview of Geospatial Representation in Narratives}\label{chap:overview_narratives} %Literature Review
+
+\section{Introduction}\label{III-sec:introduction}
+
+After establishing the theoretical framework, we must now examine the state-of-the-art in semantic web technologies and representation techniques for spatiotemporal narratives. In an increasingly data-rich world, the ability to model and interpret spatial and temporal dimensions is essential for understanding complex phenomena and making informed decisions. Ontologies offer a structured framework for capturing and organizing this knowledge, enabling interoperability and facilitating advanced analysis across diverse datasets.
+
+This chapter provides an overview of the ontological frameworks developed to represent geospatial and spatiotemporal knowledge. By analyzing these ontologies, we explore how they formalize key concepts such as location, distance, temporal sequences, and the relationships between spatial entities and events. Understanding these models helps clarify the methodologies used to seamlessly integrate spatial and temporal information.
+
+Building on this foundation, we then examine ontologies designed to represent narratives. Narratives, in this context, are conceived as networks of events interconnected through semantic relations, with each event linked to its components, such as places, participants, and concepts. By exploring narrative ontologies, we investigate how they encapsulate the structural components of stories—events, characters, and plots—and how these elements interact within spatial and temporal contexts. This analysis highlights the mechanisms by which narratives convey meaning and how ontological models can capture the richness and complexity of storytelling.
+
+Through this exploration, we aim to shed light on the intersection between geospatial representation and narrative structures. By integrating ontological approaches from both domains, we enhance our ability to represent, analyze, and interpret complex information systems rich in spatial and temporal dimensions. This integration not only advances theoretical understanding but also has practical implications for fields such as digital storytelling, cultural heritage preservation, bioeconomy studies, and geographic information systems. The insights gained from this chapter underscore the crucial role of ontologies in fostering a comprehensive understanding of narratives enriched with geospatial and spatiotemporal dimensions.
+
+\section{Geospatial Ontologies and Geographic Knowledge}\label{III-sec:geospatialOntologies}
+
+As discussed in chapter \ref{chap:theoretical_framework}, we have explored the concept of an ontology. We now turn our attention to geospatial ontology, which is a structured framework designed to conceptualize geographic knowledge and enable the formal representation of spatial relationships among real-world entities. Like in the geospatial representation, a fundamental element of any geospatial ontology is the "geographic feature" (or simply "feature"), which represents an abstraction of real-world entities \cite{longleyGeographicInformationScience2015}. These features can have both thematic (non-spatial) and spatial characteristics.
+
+As an example, consider the Leaning Tower of Pisa in Italy. As a geographic feature, the tower has various thematic attributes, such as its name (Leaning Tower of Pisa) and its status as part of the UNESCO World Heritage site, Piazza del Duomo. In terms of its spatial characteristics, the tower’s precise location can be quantitatively described using geographic coordinates within the WGS 84 coordinate system, with its longitude and latitude specified as 10.3966 and 43.7229, representing an exact point on the Earth’s surface.
+
+Alternatively, its spatial extent can be described in terms of the land area it occupies, as surveyed by engineers or cartographers. Besides this quantitative description, qualitative spatial information can describe its location relative to other features. For example, the Leaning Tower of Pisa is "southwest of" the Pisa Cathedral and "within" the Piazza del Duomo. Here, "southwest of" represents a cardinal direction relation, while "within" exemplifies a topological relation, illustrating how spatial relationships are captured in qualitative terms.
+
+In the following subsection, we will concentrate on two extensively utilized ontologies: the GeoSPARQL ontology and schema.org, while also providing a brief overview of other geospatial ontologies.
+
+\subsection{The GeoSPARQL Ontology}\label{III-subsec:geosparql}
+The GeoSPARQL ontology serves as the foundation for the GeoSPARQL query language, a standard from the \acrfull{OGCLabel} for querying geospatial data represented in \acrshort{RDFLabel} \cite{matthewperryOGCGeoSPARQLGeographic2012}. In the chapter X will be discusses how linked geospatial datasets can be queried using GeoSPARQL, but here we will focus on the structure and design of the GeoSPARQL ontology.
+
+The GeoSPARQL ontology is designed modularly, with components referred to as modules. These modules help organize the ontology efficiently \cite{grauModularReuseOntologies2008}. Although the GeoSPARQL specification refers to it as a "vocabulary"—a set of predefined classes and properties—it extends beyond a simple vocabulary by incorporating taxonomic relationships (subclass and subproperty hierarchies), role typing (defining domains and ranges for properties), and negative constraints (disjointness axioms). Depending on the application’s requirements, GeoSPARQL can be used either as an \acrshort{RDFSLabel} ontology or as an \acrshort{OWLLabel} ontology.
+
+The ontology is structured around three primary components. The first component, called the \textit{Core}, establishes the fundamental vocabulary for spatial objects, serving as the foundational layer of the ontology. Building upon this foundation, the second component, the \textit{Topology Vocabulary Extension}, defines topological relations between spatial objects and their geometries, enhancing the capabilities provided by the core definitions. The third component, the \textit{Geometry Extension}, offers the vocabulary necessary for describing the geometries of spatial objects in detail.
+
+Both the Topology Vocabulary Extension and the Geometry Extension are extensions of the Core component, relying on its basic definitions to function effectively. Additionally, the specification introduces other extensions such as geometry topology, query rewrite, and \acrshort{RDFSLabel} entailment. These supplementary extensions are particularly relevant to the query language aspects of the ontology and are discussed in later chapters.
+
+\subsubsection{Core Component}\label{III-subsubsec:geosparqlCore}
+
+The Core component of the GeoSPARQL ontology introduces the fundamental classes that form the foundation for modeling geospatial information. The two primary classes defined here are \texttt{\gls{geo}SpatialObject} and \texttt{\gls{geo}Feature}.
+
+\texttt{\gls{geo}SpatialObject} is the most general class in the GeoSPARQL ontology, representing any entity that can have a spatial representation. Essentially, any object that has a location or shape in space falls under this class.
+
+\texttt{\gls{geo}Feature} represents geographic features and serves as a superclass for all specific feature classes that users might define in their applications. In the context of geospatial ontologies, a feature could be anything from a mountain to a city or a river.
+
+The relationship between these two classes is established through the subclass mechanism provided by \acrshort{RDFSLabel} and \acrshort{OWLLabel}. Specifically, \texttt{\gls{geo}Feature} is declared as a subclass of \texttt{\gls{geo}SpatialObject}, meaning that every instance of \texttt{\gls{geo}Feature} is also an instance of \texttt{\gls{geo}SpatialObject}.
+
+The formal definitions in Turtle syntax are as follows:
+
+\begin{lstlisting}[caption=Definition of classes \texttt{geo:SpatialObject} and \texttt{geo:Feature} , label={lst:definition-geosparql1}]
+/*!\gls{geo}!*/SpatialObject /*!\gls{rdf}!*/type /*!\gls{rdfs}!*/Class, /*!\gls{owl}!*/Class .
+
+/*!\gls{geo}!*/Feature  /*!\gls{rdf}!*/type /*!\gls{rdfs}!*/Class, /*!\gls{owl}!*/Class ;
+            /*!\gls{rdfs}!*/subClassOf /*!\gls{geo}!*/SpatialObject .
+\end{lstlisting}
+
+\subsubsection{Topology Vocabulary Extension}\label{III-subsubsec:geosparqlTopology}
+
+The Topology Vocabulary Extension provides a set of properties to express topological relationships between spatial objects. It encompasses three families of relations:
+
+First, the Simple Features Relations from the ISO 19125-1 standard \cite{ISO19125120042004}:\\
+ \texttt{\gls{geo}sfEquals}, \texttt{\gls{geo}sfDisjoint}, \texttt{\gls{geo}sfIntersects}, \texttt{\gls{geo}sfTouches}, \texttt{\gls{geo}sfCrosses}, \texttt{\gls{geo}sfWithin}, \texttt{\gls{geo}sfContains}, \texttt{\gls{geo}sfOverlaps}.
+
+Second, Egenhofer’s 4-Intersection Model (4IM) Relations, including:\\
+\texttt{\gls{geo}ehEquals}, \texttt{\gls{geo}ehDisjoint}, \texttt{\gls{geo}ehMeet}, \texttt{\gls{geo}ehOverlap},\\
+\texttt{\gls{geo}ehCovers}, \texttt{\gls{geo}ehCoveredBy}, \texttt{\gls{geo}ehInside}, \texttt{\gls{geo}ehContains}.
+
+Third, the Region Connection Calculus (RCC-8) Relations, like \\
+\texttt{\gls{geo}rcc8eq} (equals), \texttt{\gls{geo}rcc8dc} (disconnected), \texttt{\gls{geo}rcc8ec} (externally connected), \texttt{\gls{geo}rcc8po} (partially overlapping), \texttt{\gls{geo}rcc8tppi} (tangential proper part inverse), \texttt{\gls{geo}rcc8tpp} (tangential proper part), \texttt{\gls{geo}rcc8ntpp} (non-tangential proper part), \texttt{\gls{geo}rcc8ntppi} (non-tangential proper part inverse).
+
+An important aspect of these properties is that they are designed to relate any spatial entities, not just geometric objects. Therefore, their domain and range are both defined as \texttt{\gls{geo}SpatialObject}, allowing the relations to be used with features, geometries, or any other spatial entities.
+
+For example, the definition of the property \texttt{\gls{geo}sfDisjoint} is as follows (other properties are defined similarly):
+
+\begin{lstlisting}[caption=Definition of the property \texttt{geo:sfDisjoint} , label={lst:definition-disjoint}]
+geo:sfDisjoint rdf:type rdf:Property, owl:ObjectProperty ;
+               rdfs:domain geo:SpatialObject ;
+               rdfs:range geo:SpatialObject .
+\end{lstlisting}
+
+\subsubsection{Geometry Extension}\label{III-subsubsec:geosparqlGeometry}
+
+The Geometry Extension component adds classes, properties, and datatypes specifically for handling geometries. The central class introduced is \texttt{\gls{geo}Geometry}, which represents any geometric object.
+
+Two key aspects of \texttt{\gls{geo}Geometry} are that it is a subclass of \texttt{\gls{geo}Spatial\\Object}, situating it within the hierarchy of spatial entities, and it is declared to be disjoint with \texttt{\gls{geo}Feature}, meaning an instance cannot simultaneously be both a geometry and a feature.
+
+The properties connecting \texttt{\gls{geo}Feature} and \texttt{\gls{geo}Geometry} are \texttt{\gls{geo}has\\Geometry} and \texttt{\gls{geo}hasDefaultGeometry}. The property \texttt{\gls{geo}hasGeometry} associates a feature with one of its geometries; its domain is \texttt{\gls{geo}Feature}, and its range is \texttt{\gls{geo}Geometry}. The property \texttt{\gls{geo}hasDefaultGeometry} is a subproperty of \texttt{\gls{geo}hasGeometry}, used to link a feature to its default geometry, which is the primary geometry used in spatial calculations when no specific geometry is specified.
+
+These properties are formally defined as:
+
+\begin{lstlisting}[caption=Definition of the properties \texttt{geo:hasGeometry} and \texttt{geo:hasDefaultGeometry} , label={lst:definition-hasGeometry}]
+geo:hasGeometry rdf:type rdf:Property, owl:ObjectProperty ;
+                rdfs:domain geo:Feature ;
+                rdfs:range geo:Geometry .
+
+geo:hasDefaultGeometry rdf:type rdf:Property, owl:ObjectProperty ;
+                       rdfs:subPropertyOf geo:hasGeometry ;
+                       rdfs:domain geo:Feature ;
+                       rdfs:range geo:Geometry .
+\end{lstlisting}
+
+It is important to note that the GeoSPARQL ontology does not restrict the number of geometries a feature can have (no cardinality constraints are enforced). While the specification treats having multiple geometries for a single feature as a modeling error, users can enforce such constraints using additional tools. For instance, the Shapes Constraint Language (SHACL) can be used to specify constraints like cardinality for users of the \acrshort{RDFSLabel} version \cite{holgerknublauchShapesConstraintLanguage2017}. Alternatively, for users of the \acrshort{OWLLabel} version, declaring properties as functional can enforce that a feature has only one geometry, though this may affect performance.
+
+% Additional properties in the Geometry Extension provide metadata about geometries. These include \texttt{geo:coordinateDimension}, which captures the number of components in coordinate tuples (axes); \texttt{geo:spatialDimension}, capturing the number of spatial components in coordinate tuples; \texttt{geo:dimension}, representing the topological dimension of the geometry; \texttt{geo:isEmpty}, indicating if the geometry is empty; and \texttt{geo:isSimple}, indicating if the geometry is simple (no self-intersections).
+
+% All these properties have \textbf{geo:Geometry} as their domain. The first three have ranges of \textbf{xsd:integer}, and the last two have ranges of \textbf{xsd:boolean}.
+
+% \begin{verbatim}
+% geo:coordinateDimension rdf:type rdf:Property, owl:DatatypeProperty ;
+%                         rdfs:domain geo:Geometry ;
+%                         rdfs:range xsd:integer .
+
+% geo:dimension rdf:type rdf:Property, owl:DatatypeProperty ;
+%               rdfs:domain geo:Geometry ;
+%               rdfs:range xsd:integer .
+
+% geo:spatialDimension rdf:type rdf:Property, owl:DatatypeProperty ;
+%                      rdfs:domain geo:Geometry ;
+%                      rdfs:range xsd:integer .
+
+% geo:isEmpty rdf:type rdf:Property, owl:DatatypeProperty ;
+%             rdfs:domain geo:Geometry ;
+%             rdfs:range xsd:boolean .
+
+% geo:isSimple rdf:type rdf:Property, owl:DatatypeProperty ;
+%              rdfs:domain geo:Geometry ;
+%              rdfs:range xsd:boolean .
+% \end{verbatim}
+
+To represent geometries, GeoSPARQL uses typed literals with the datatypes \texttt{\gls{geo}} \texttt{wktLiteral} and \texttt{\gls{geo}gmlLiteral}, corresponding to \acrfull{WKTLabel}\cite{WellknownTextRepresentationa} and \acrfull{GMLLabel}\cite{GeographyMarkupLanguagea} formats, respectively.
+
+Examples of geometry literals include:
+
+\begin{itemize}
+   
+ \item  \acrshort{WKTLabel} Literal without specified \acrshort{CRSLabel} (defaults to WGS 84):
+
+\begin{lstlisting}[caption=WKT literal without CRS, label={lst:wktLiteral}]
+    "POINT(-83.38 33.95)"^^geo:wktLiteral
+\end{lstlisting}
+
+
+ \item  \acrshort{WKTLabel} Literal with specified \acrshort{CRSLabel}:
+
+\begin{lstlisting}[caption=WKT literal with CRS specified, label={lst:wktLiteralCRS}]
+    "<http://www.opengis.net/def/crs/EPSG/0/4326> POINT(33.95 -83.38)"^^geo:wktLiteral
+\end{lstlisting}
+
+The \acrshort{IRILabel} <http://www.opengis.net/def/crs/EPSG/0/4326> represents the World Geodetic System 1984 (WGS 84).
+
+ \item  \acrshort{GMLLabel} Literal:
+
+\begin{lstlisting}[caption=GML literal, label={lst:GMLLiteral}]
+"<gml:Point srsName=\"http://www.opengis.net/def/crs/OGC/1.3/CRS84\" xmlns:gml=\"http://www.opengis.net/gml\">
+  <gml:pos>-83.38 33.95</gml:pos>
+</gml:Point>"^^geo:gmlLiteral
+\end{lstlisting}
+
+\end{itemize}
+
+Properties for geometry serialization are \texttt{\gls{geo}hasSerialization}, which links a geometry to its serialized form (untyped literal); \texttt{\gls{geo}asWKT}, a subproperty of \texttt{\gls{geo}hasSerialization} that links a geometry to its WKT serialization; and \texttt{\gls{geo}\\asGML}, also a subproperty of \texttt{\gls{geo}hasSerialization}, linking a geometry to its GML serialization.
+
+% \subsection{The Schema.org Ontology}
+
+% In the realm of the Web, Schema.org stands out as a significant geospatial ontology. It is a collaborative community initiative with the mission to create, maintain, and promote schemas for structured data on the Web. By providing a collection of shared vocabularies, Schema.org enables webmasters to annotate their web pages with semantic information. This semantic enrichment facilitates major search engines (like Google and Bing) in better understanding and efficiently indexing web content.
+
+% From a modeling standpoint, Schema.org offers users an extensive taxonomy comprising 598 classes. Each class is associated with a set of properties, totaling 862 properties, whose domains and ranges can generally be a union of classes. This level of expressiveness surpasses the capabilities of \acrshort{RDFSLabel}, which cannot model such property ranges, but fits well within the expressive power of OWL (Web Ontology Language) \cite{OWLWebOntologya}.
+
+% Specifically for geospatial modeling, Schema.org provides three main classes: \texttt{schema:GeoCoordinates}, \texttt{schema:GeoShape}, and \texttt{schema:Place}. The class \texttt{schema:GeoCoordinates} is used to represent the coordinates of a place considered as a point, possibly including elevation. The class \texttt{schema:GeoShape} allows encoding the geometric shape of a place using lines, rectangles, circles, or polygons. Lastly, \texttt{schema:Place} is intended for modeling entities with a physical extension, such as the Athens airport. In the following sections, these classes and their associated properties are discussed in detail.
+
+% \subsubsection{Class \texttt{schema:GeoCoordinates}}
+
+% The class \texttt{schema:GeoCoordinates} is provided by Schema.org for representing the geographic coordinates of a place when considered as a point, possibly accompanied by elevation information. To capture these details, Schema.org defines the properties \texttt{schema:latitude}, \texttt{schema:longitude}, and \texttt{schema:elevation}, which represent the measurements for latitude, longitude, and elevation, respectively. These measurements are expected to be relative to the WGS 84 coordinate system and are provided as literals of either type \texttt{schema:Number} or \texttt{schema:Text}.
+
+% Except for \texttt{schema:elevation}, which is also defined for \texttt{schema:GeoShape}, the properties \texttt{schema:latitude} and \texttt{schema:longitude} are exclusively used with the class \texttt{schema:GeoCoordinates}. Additionally, instances of \texttt{schema:GeoCoordinates} may include metadata such as the country, address, and postal code associated with the geographic coordinates. These metadata are represented using appropriate properties, which are not detailed here but can be explored further at \url{https://schema.org/GeoCoordinates}.
+
+% The OWL definitions for the class \texttt{schema:GeoCoordinates} and its spatial properties are provided using the Manchester OWL syntax \cite{OWLWebOntologyb}. This syntax is particularly useful for defining property ranges in Schema.org, which may take values belonging to a union of classes. The class \texttt{schema:GeoCoordinates} is defined as a subclass of \texttt{schema:StructuredValue}, a class employed in Schema.org when there is a need to represent property values with complex structures.
+
+
+% \subsubsection{Class \texttt{schema:GeoShape}}
+
+% The class \texttt{schema:GeoShape} is offered by Schema.org for asserting the geographic shape of a place. The supported shapes include lines, rectangles, circles, and polygons, which correspond to the classes of geometries introduced earlier. To represent these shapes, Schema.org defines the properties \texttt{schema:line}, \texttt{schema:box}, \texttt{schema:circle}, and \texttt{schema:polygon}, respectively, each taking literal values of type \texttt{schema:Text}.
+
+% The modeling of these geometries and their textual representation assumes that coordinates are interpreted in WGS 84, with point geometries encoded by listing their longitude and latitude measurements in that specific order, separated by a comma. A line is a point-to-point path consisting of two or more points, expressed as a series of point objects separated by spaces. A box represents the area enclosed by the rectangle formed by two points—the first point being the lower corner and the second point the upper corner—and is expressed as two points separated by a space. A circle denotes a circular region of a specified radius centered at a specified latitude and longitude, expressed as a pair followed by a radius in meters. A polygon is the area enclosed by a point-to-point path where the starting and ending points are the same, expressed as a series of four or more space-delimited points with identical first and final points.
+
+% It is important to note that \texttt{schema:GeoShape} does not support properties for geometry collections such as multi-line strings or multi-polygons, as discussed in Section 2.1.1. This limitation is significant because many geographic features have such geometries. For example, multi-polygons are used to encode the geometries of administrative divisions of Greece in the GADM dataset, which is presented in Section 6.1 of the next chapter.
+
+% The shapes supported by \texttt{schema:GeoShape} can also include elevation through the property \texttt{schema:elevation}. Elevation measurements are again interpreted in WGS 84 and encoded as literals of type either \texttt{schema:Number} or \texttt{schema:Text}. Similar to \texttt{schema:GeoCoordinates}, instances of \texttt{schema:GeoShape} may carry metadata such as country, address, and postal code associated with the shape. These can be explored further at \url{https://schema.org/GeoShape}.
+
+% The OWL definitions for the class \texttt{schema:GeoShape} and its spatial properties are as follows:
+
+
+% Before concluding the discussion on \texttt{schema:GeoShape}, it is essential to mention its subclass, \texttt{schema:GeoCircle}. This class is used to represent features occupying a circular geographic area defined by a center and a radius. \texttt{schema:GeoCircle} provides the properties \texttt{schema:geoMidpoint} and \texttt{schema:geoRadius} to represent the center and radius of circles, respectively. The center is specified as an instance of \texttt{schema:GeoCoordinates}, while the radius is given as a literal of type \texttt{schema:Number}, \texttt{schema:Text}, or \texttt{schema:Distance}. Values of the latter type must conform to the form ``\textless Number\textgreater\ \textless SPACE\textgreater\ \textless Unit of measure\textgreater,'' for example, ``10 ft.'' Values for \texttt{schema:geoRadius} are interpreted in meters unless they are literals of type \texttt{schema:Distance}, in which case the unit of measure is obtained directly from the specified value.
+
+
+% It is worth noting that Schema.org provides two methods for representing circular regions: by asserting them as instances of \texttt{schema:GeoShape} and populating the property \texttt{schema:circle}, or by asserting them as instances of \texttt{schema:GeoCircle}. The latter approach was introduced later to meet publishers' needs for controlling the unit of measure in which the radius is interpreted.
+
+% \subsubsection{Class \texttt{schema:Place}}
+
+% The class \texttt{schema:Place} is used by Schema.org to model entities that have a physical extension. As such, it is a subclass of \texttt{schema:Thing}, the top-level class that every other class in Schema.org specializes, either directly or indirectly. Among the extensive set of metadata properties provided for places—which are not detailed here for brevity—Schema.org includes the geospatial properties \texttt{schema:geo}, \texttt{schema:containsPlace}, and \texttt{schema:containedInPlace}.
+
+% The property \texttt{schema:geo} associates a place with a geometry by relating instances of \texttt{schema:Place} with instances of either \texttt{schema:GeoCoordinates} or \texttt{schema:GeoShape}. The properties \texttt{schema:containsPlace} and \texttt{schema:containedInPlace} correspond to the topological relation of containment and its inverse, respectively, and relate instances of \texttt{schema:Place}.
+
+% It is important to highlight that Schema.org does not specify the underlying topological model for these relations. As discussed in Chapter 2, the choice of topological model is crucial for the interpretation of topological relations and can lead to different formalisms, such as the 4-Intersection Model (4IM), Dimensionally Extended 9-Intersection Model (DE-9IM), or Region Connection Calculus (RCC-8). In a pending extension, Schema.org plans to address this ambiguity by explicitly adopting the DE-9IM model and including the set of properties that accompany it. Currently, these properties are planned to be defined on \texttt{schema:Place} and on a pending superclass of \texttt{schema:GeoShape} called \texttt{GeospatialGeometry}. Interested readers are referred to \url{https://pending.schema.org/GeospatialGeometry} for further information.
+
+% Finally, it is worth mentioning that Schema.org provides a very broad set of subclasses under \texttt{schema:Place}. These include useful classes for representing administrative areas (e.g., cities, states), land formations (e.g., mountains, lakes), civic structures (e.g., bridges, airports, hospitals), and more. All such classes inherit the spatial properties defined for \texttt{schema:Place} and may extend the corresponding set of metadata properties. Readers can explore the full range of these subclasses at \url{https://schema.org/docs/full.html}.
+
+\subsection{The Schema.org Ontology}\label{III-subsec:schemaOrg}
+
+Schema.org is a prominent ontology widely used to structure data on the Web. It is a collaborative initiative aimed at creating and promoting schemas for semantic annotations, which enhance how search engines like Google and Bing index and understand web content. Schema.org provides a large taxonomy consisting of 598 classes and 862 properties, offering significant expressiveness, particularly in geospatial modeling, aligning with the capabilities of \acrshort{OWLLabel} while exceeding the expressiveness of \acrshort{RDFSLabel}.
+
+For geospatial purposes, Schema.org introduces three main classes: \texttt{\gls{schema}\\GeoCoordinates}, \texttt{\gls{schema}GeoShape}, and \texttt{\gls{schema}Place}. \texttt{\gls{schema}GeoCoordinates} is used to represent a geographic point, offering properties such as \texttt{\gls{schema}latitude}, \texttt{\gls{schema}longitude}, and \texttt{\gls{schema}elevation}. These properties are generally associated with the WGS 84 coordinate system and can be expressed as either numbers or text. Latitude and longitude are specific to \texttt{\gls{schema}GeoCoordinates}, while elevation is also used by \texttt{\gls{schema}GeoShape}. Metadata such as country, address, and postal code can also be associated with geographic coordinates.
+
+\texttt{\gls{schema}GeoShape} is used to describe geographic shapes, including lines, rectangles, circles, and polygons. It provides properties like \texttt{\gls{schema}line}, \texttt{\gls{schema}\\box}, \texttt{\gls{schema}circle}, and \texttt{\gls{schema}polygon}, where the coordinates are expressed in WGS 84. Lines are represented as a series of points, rectangles are defined by two corner points, circles are specified by a center and a radius, and polygons are represented as a closed series of points. However, \texttt{\gls{schema}GeoShape} does not support complex geometries like multi-polygons or multi-line strings, which is a limitation when modeling geographic features such as administrative boundaries. Elevation can also be included using the \texttt{\gls{schema}elevation} property. Additionally, \texttt{\gls{schema}GeoCircle}, a subclass of \texttt{\gls{schema}GeoShape}, models circular regions with a center point and a radius, offering flexibility in representing circular areas.
+
+\texttt{\gls{schema}Place} is used to represent entities with a physical extension and is a subclass of \texttt{\gls{schema}Thing}, the root class of Schema.org. Key geospatial properties include \texttt{\gls{schema}geo}, which links a place to its geographic coordinates or shape, as well as \texttt{\gls{schema}containsPlace} and \texttt{\gls{schema}containedInPlace}, which model containment relationships between places. However, Schema.org does not explicitly define a topological model for these relations, which can lead to different interpretations. A future extension aims to incorporate the DE-9IM model to clarify topological relations in \texttt{\gls{schema}Place} and a new class, \texttt{GeospatialGeometry}. 
+
+Schema.org also offers a wide range of subclasses for \texttt{\gls{schema}Place}, covering administrative areas (such as cities and states), natural features (like mountains and lakes), and civic structures (e.g., airports, bridges). These subclasses inherit the geospatial properties of \texttt{\gls{schema}Place} and may include additional metadata. 
+
+
+\subsection{Other Geosptial Ontologies}\label{III-subsec:otherGeospatialOntologies}
+
+Beyond the well-known geospatial ontologies like GeoSPARQL, several other vocabularies have been developed to represent and share spatial information on the web effectively. These ontologies aim to address specific limitations of existing standards and enhance the expressiveness and interoperability of geospatial data.
+
+The W3C Basic Geo Vocabulary, introduced in 2003 \cite{danbrickleyW3CBasicGeo2003}, provides a foundational \acrshort{RDFLabel} schema for representing geographic points using the World Geodetic System 1984 (WGS84) as a reference datum. It defines a class \texttt{Point} with properties such as \texttt{lat} (latitude), \texttt{long} (longitude), and \texttt{alt} (altitude) to describe point locations. Latitude and longitude are expressed in decimal degrees, while altitude is given in decimal meters above the local reference ellipsoid.
+
+While this vocabulary is widely used for encoding WGS84 coordinates, it has notable limitations. It lacks the ability to represent geometric shapes beyond simple points, such as the borders of countries. Additionally, it does not support the specification of different datums and coordinate systems, which led to its exclusion from more comprehensive standards like GeoSPARQL. Nevertheless, data encoded with the W3C Basic Geo Vocabulary can be converted into GeoSPARQL representations without significant difficulty.
+
+To overcome these limitations, extensions such as GeoRSS \cite{reedOGCGeoRSSEncoding2017} and GeoJSON \cite{butlerGeoJSONFormat2016} were developed. GeoRSS is designed to extend RSS feeds with geographic information, allowing for the encoding of more complex geometries like lines, rectangles, and polygons. It facilitates applications in requesting, aggregating, sharing, and mapping geographically tagged data. GeoJSON, on the other hand, is a geospatial data interchange format based on JSON, capable of encoding various shapes including points and polygons, thus providing a flexible and lightweight means of sharing spatial data.
+
+Recognizing the need for a more expressive vocabulary, the W3C Geospatial Incubator Group proposed updates to the W3C Basic Geo Vocabulary \cite{joshualiebermanW3CGeospatialVocabulary2017}. The aim was to incorporate features from the GeoRSS model, enabling the description of points, lines, rectangles, and polygon geometries along with their associated features, thereby enhancing the vocabulary's utility for representing complex spatial data.
+
+Another significant contribution is the NeoGeo vocabulary developed by Salas and Harth \cite{salasNeoGeoVocabularyDefining2011a}. By analyzing existing geospatial datasets, they identified common patterns and distilled a core set of classes and properties to support typical geometric objects such as points, lines, polygons, and their collections. NeoGeo represents all elements as \acrshort{RDFLabel} resources, maximizing expressiveness. For example, a polygon is represented as an \acrshort{RDFLabel} collection of point resources, allowing detailed geometric descriptions within the \acrshort{RDFLabel} framework. The vocabulary also includes topological relations based on the Region Connection Calculus (RCC-8), providing properties to express spatial relationships between features.
+
+In a different approach, Brodt et al. \cite{brodtDeepIntegrationSpatial2010} proposed representing spatial features in \acrshort{RDFLabel} using spatial literals. These literals contain geometries expressed in the \acrshort{WKTLabel} format, standardized by the OpenGIS Simple Features Specification. The literals are typed to indicate they represent spatial features, enabling their processing as geometric data rather than ordinary strings. While this method embeds all geographic information within a single \acrshort{RDFLabel} statement, it does not assign unique identifiers to individual spatial features, which limits direct referencing and metadata augmentation.
+
+GeoRDF emerged as an RDF-compatible profile intended to represent geographic information such as points, lines, and polygons. It offers both simple and complex profiles for encoding geometries. The simple profile uses comma-separated lists of coordinate pairs to describe lines and polygons, while the complex profile employs \acrshort{RDFLabel} sequences of points. This dual approach allows users to choose the level of complexity that best suits their needs, facilitating flexibility in geometric representations.
+
+Addressing the issue of incomplete geospatial information, Nikolaou and Koubarakis introduced RDF$^i$ \cite{nikolaouQueryingIncompleteInformation2016a}, an extension of \acrshort{RDFLabel} that enables the representation and querying of unknown or partially known property values. RDF$^i$ allows for the use of existential literals in the object positions of triples, indicating the existence of a value without specifying it explicitly. This framework enhances the expressiveness of \acrshort{RDFLabel} in geospatial contexts by accommodating incomplete information, which is common in real-world data scenarios.
+
+Collectively, these ontologies and vocabularies contribute to the evolving landscape of geospatial data representation on the web. By addressing specific needs—such as supporting complex geometries, handling incomplete information, and integrating various data formats—they enhance the capacity to model, share, and query spatial information within the Semantic Web framework. Their development reflects ongoing efforts to create more comprehensive and flexible tools for geospatial data, ultimately facilitating better data interoperability and more powerful spatial analyses.
+
+\section{Spatiotemporal Ontologies}\label{III-sec:spatiotemporal}
+
+Spatiotemporal ontologies integrate both spatial and temporal dimensions in data modeling. While spatial \acrshort{RDFLabel} data management has been extensively researched, many applications require not only spatial information but also a temporal context. Geospatial objects are complex, consisting of multiple interrelated parts, and this complexity increases when the temporal dimension is introduced. As a result, significant research interest has emerged around \acrshort{RDFLabel}-based techniques for managing spatiotemporal data.
+
+\subsection{stRDF: A Spatio-temporal RDF Model}\label{III-subsec:strdf}
+
+During the development of GeoSPARQL by the Open Geospatial Consortium (OGC), Koubarakis et al. \cite{koubarakisModelingQueryingMetadata2010a} independently introduced the stRDF model and the stSPARQL query language. stRDF extends \acrshort{RDFLabel} to support the representation of geospatial data that evolves over time. Similar to GeoSPARQL, stRDF uses two core spatial data types: \texttt{\gls{strdf}WKT} (Well-Known Text) and \texttt{\gls{strdf}GML} (Geography Markup Language), which represent geometries in their respective formats. The property \texttt{\gls{strdf}has\\Geometry} allows users to link features to their geometries without requiring a high-level spatial ontology, unlike GeoSPARQL, which connects geometries through intermediate \acrshortpl{IRILabel}. stRDF directly associates geometry literals with features, providing a simpler but less flexible model.
+
+Koubarakis and Kyzirakos further developed stRDF as a constraint-based \acrshort{RDFLabel} extension to represent both spatial and temporal data. The model is based on the principles of constraint databases and represents spatial and temporal objects using quantifier-free formulas in first-order logic of linear constraints. A first-order language \( L \) is defined to include linear constraints over the rational numbers \( Q \), and semi-linear subsets of \( Q^k \) are used to model geometries. These can capture a variety of spatial shapes, including points, lines, and polygons. However, stRDF does not support complex geometries like circles, which require higher-degree polynomials.
+
+To handle spatial data, stRDF introduces the notion of spatial RDF (sRDF), where triples consist of subjects, predicates, and objects, where objects can be quantifier-free formulas representing spatial data. An example of this approach would be modeling the Tower Of Pisa location as a conjunction of linear constraints:
+\begin{lstlisting}[caption=the Tower of Pisa location as a conjunction of linear constraints, label={lst:tower-Pisa-location}]
+ex:PisaTower rdf:type ex:LeaningTower;
+            ex:hasLocation "x=10 and y=20"^^strdf:SemiLinearPointSet.
+\end{lstlisting}
+In this example, the location is expressed using the datatype \texttt{\gls{strdf}SemiLinear\\PointSet}, which defines spatial literals as Boolean combinations of linear constraints in \( Q^2 \).
+
+stRDF extends sRDF to include the temporal dimension, enabling the representation of both spatial and thematic data with a temporal component. The temporal constraints are expressed using quantifier-free formulas over rational numbers, where atomic temporal constraints take the form \( x \sim c \), where \( x \) is a variable, \( c \) is a rational number, and \( \sim \) represents a comparison operator. Each stRDF quad has a temporal component \( \tau \), which specifies the time points at which the triple is valid. For example:
+\begin{lstlisting}[caption=the Tower of Pisa sensor controle the slope, label={lst:tower-Pisa-slope}]
+ex:sensor1 rdf:type ex:Sensor
+ex:sensor1 ex:slopeControl "35"^^xsd:decimal at "2024-10-10T00:01:00"^^xsd:dateTime.
+\end{lstlisting}
+This illustrates how a sensor reading can be annotated with a temporal validity period.
+
+In later work, Koubarakis et al. \cite{koubarakisChallengesQualitativeSpatial2011} introduced stRDFi, a more practical version of stRDF, which replaces linear constraints with OGC standards such as WKT and GML for representing geometries. The stRDFi model allows incomplete spatial information to be represented and queried using qualitative spatial relations. Temporal data is managed using XML Schema datatypes, such as \texttt{xsd:dateTime}, \texttt{xsd:date}, and others. 
+
+\subsection{stSPARQL: A Query Language for Spatio-temporal Data}\label{III-subsec:stsparql}
+
+While GeoSPARQL offers a robust framework for querying spatial data, stRDF required a specialized query language to handle both spatial and temporal dimensions. stSPARQL, introduced by Koubarakis and Kyzirakos, is an extension of \acrshort{SPARQLLabel} that allows querying spatiotemporal data in stRDF. stSPARQL adds spatial and temporal variables to basic graph patterns, enabling advanced spatiotemporal querying. 
+
+Spatial variables in stSPARQL are used to refer to spatial literals such as semi-linear point sets and can be utilized in spatial filters. These filters allow for the comparison of spatial terms using predicates like "inside" or "overlaps". For example, a query might filter results where one geometry is inside another:
+\begin{lstlisting}[caption=Filter command with inside predicate, label={lstfilter-inside}]
+    filter(?GEO1 inside ?GEO2)
+\end{lstlisting}
+
+
+In addition to spatial variables, stSPARQL introduces temporal variables, which refer to temporal literals or constants. These allow for the querying of temporal data using predicates based on Allen's interval algebra, as demonstrated by a filter expression querying for a temporal event:
+\begin{lstlisting}[caption=Filter command with contains predicate, label={lstfilter-inside}]
+filter(?T contains "2024-01-01"^^xsd:dateTime)
+\end{lstlisting}
+
+stSPARQL also supports advanced spatial functions, such as \texttt{\gls{strdf}union} and \texttt{\gls{strdf}area}, which are not currently available in GeoSPARQL but are planned for future versions. stSPARQLi, an enhanced version of stSPARQL, integrates additional functions from the OGC Simple Features Access standard, allowing users to perform more complex spatial queries. For instance, the \texttt{srdf:Contains} function can check whether one geometry contains another:
+\begin{lstlisting}[caption=strdf function Contains in stSPARQL, label={lstfilter-inside}]
+srdf:Contains(?GEO, "POINT(669062 4238286); urn:epsg:ggrs87"^^srdf:geometry)
+\end{lstlisting}
+These spatial functions can also be used in the \texttt{SELECT} part of a query to return derived spatial information, such as the buffer of a geometry.
+
+The Strabon 3.0 system \cite{krr&ateamStrabon}, an open-source platform, implements stSPARQLi and supports querying spatiotemporal data stored in a PostGIS-enabled\cite{PostGIS} \acrshort{RDFLabel} store. Strabon is based on the Sesame \acrshort{RDFLabel} store and extends it with modules for handling spatiotemporal data, including a storage manager and a query engine optimized for spatial queries.
+
+\subsection{Other Spatiotemporal Representation Models}\label{III-subsec:otherSpatiotemporal}
+
+In addition to stRDF and stSPARQL, other models have been developed to handle spatiotemporal data. The STT (Spatial, Temporal, Thematic) framework by Sheth and Perry \cite{perryFrameworkSupportSpatial2008} provides an alternative approach for processing Semantic Web data. This model uses temporal \acrshort{RDFLabel} graphs to represent facts with time intervals, and it introduces an upper-level ontology that distinguishes between continuants (persistent entities) and occurrents (events and processes). The temporal \acrshort{RDFLabel} graphs are used to model discrete time points, allowing for temporal queries.
+
+The gst-Store system, developed by Wang et al. \cite{wangGstStoreEngineLarge2014}, extends \acrshort{RDFLabel} triples to include spatial and temporal features. Each statement is modeled as a five-tuple \( (s, p, o, l, t) \), where \( l \) and \( t \) represent the location and time interval, respectively. The system uses longitude and latitude to represent spatial coordinates and stores temporal information as date intervals.
+
+YAGO2 \cite{hoffartYAGO2SpatiallyTemporally2013a}, an extension of the YAGO knowledge base, incorporates spatiotemporal knowledge using SPOTL tuples (Subject, Predicate, Object, Time, Location). YAGO2 introduces a new class, \texttt{yagoGeoEntity}, to group entities with a permanent location, and uses geographical coordinates to represent these entities' positions. Temporal data in YAGO2 is handled through the \texttt{yagoDate} datatype, which supports dates with varying resolutions, from days to years.
+
+Finally, stRDFS, proposed by Zhu et al. \cite{zhuStRDFSSpatiotemporalKnowledge2020}, extends \acrshort{RDFLabel} with spatiotemporal labels on predicates. This model supports spatiotemporal classes and relations, such as \texttt{Inside}, \texttt{Contains}, and \texttt{Before}, enabling reasoning over spatiotemporal graphs. stRDFS also defines a set of graph algebra operations, such as union, intersection, and difference, allowing users to manipulate spatiotemporal \acrshort{RDFLabel} graphs.
+
+\section{An Ontology for Narratives}\label{III-sec:nont}
+
+The Narrative Ontology (NOnt) \cite{meghiniRepresentingNarrativesDigital2021} is a conceptual framework developed to formalize the representation and modeling of narratives. Narratives, conveyed through various media such as text, images, and videos, are fundamental to human knowledge and cultural heritage. NOnt provides a structured means to digitally represent these narratives, making them accessible for machine processing and enabling tasks like discovery, comparison, and generation in digital environments, such as digital libraries.
+
+At the core of NOnt is the distinction between three main narrative components: Fabula, Narration, and Plot. Fabula refers to the sequence of events in chronological order, representing the story as it ``actually'' occurred, irrespective of whether it is factual or fictional. Narration focuses on the medium or expressive form used to present the fabula, such as a novel, film, or digital media, and how it is portrayed from a particular perspective. Plot (also known as Syuzhet) represents the structured presentation of the fabula, which may involve a reordering of events for thematic or stylistic reasons.
+
+NOnt formalizes these components by detaching narratives from their specific media representations and treating them as structured data. This allows for machine-based analysis, comparison, and synthesis, distinguishing NOnt from traditional digital libraries, which primarily catalog media objects without addressing the underlying narrative content.
+
+The NOnt framework builds upon established ontologies, such as the CIDOC Conceptual Reference Model (CRM) \cite{doerrCIDOCConceptualReference2007a}, FRBRoo \cite{doerrFRBROOCONCEPTUALMODEL2008}, and \acrshort{OWLLabel} Time \cite{TimeOntologyOWL}. Leveraging these ontologies enables the formal representation of narratives while maintaining structured connections to cultural and bibliographic resources. Furthermore, the integration of the Semantic Web Rule Language (SWRL) facilitates the formalization of complex narrative structures through the specification of axioms.
+
+This formalization enhances functionality in digital libraries. Users, such as historians or environmental scientists, can explore, create, and compare narratives to investigate cultural or scientific phenomena in greater depth. For instance, a historian might use NOnt to reconstruct and analyze the sequence of events leading up to a significant historical event, while an environmental scientist could model and compare narratives of environmental changes over time to identify causal relationships. NOnt transforms interactions with narratives, enriching the understanding and exploration of human knowledge through digital ecosystems.
+
+The following sections provide an overview of the foundational ontologies that underpin NOnt, as well as details about its implementation, leading to the development of NOnt+S, an extended version of the base ontology.
+
+
+\subsection{CIDOC-CRM}\label{III-subsec:cidoccrm}
+
+The CIDOC Conceptual Reference Model (CRM)\cite{doerrCIDOCConceptualReference2007a} is a formal ontology designed to facilitate the integration and exchange of heterogeneous cultural heritage information. Developed by the International Committee for Documentation (CIDOC) under the International Council of Museums (ICOM), CIDOC-CRM enables semantic interoperability across domains like archaeology, social history, and museum documentation. Since 9/12/2006, it is the official standard ISO 21127:2006 \cite{ISO211272023}.
+
+CRM organizes knowledge using \textit{classes} and \textit{properties}. Classes represent categories of entities, such as people, events, and places, while properties define the relationships between these entities, such as \textit{is identified by} or \textit{occurred at}. For instance, a \textit{Person} can be linked to an \textit{Event} through properties like \textit{is identified by} or \textit{occurred at}. This structured representation ensures consistent data exchange across institutions, preserving meaning and enabling cross-disciplinary research.
+
+The CRM's event-centric approach is crucial because it emphasizes historical processes and interactions over time. This focus on events, rather than static objects, allows cultural heritage institutions to represent the dynamic nature of history more effectively, capturing the context in which artifacts, people, and places interact. Furthermore, CIDOC-CRM explicitly models not just tangible heritage, such as artifacts and monuments, but also intangible aspects, such as knowledge, cultural practices, and collective memory. By capturing these intangible elements, CIDOC-CRM allows for a richer and more nuanced understanding of cultural heritage.
+
+CRM is implemented in various formats, such as \acrshort{RDFLabel} and \acrshort{OWLLabel}, making it versatile and adaptable to different system requirements. Its flexible structure and scalability also allow for domain-specific extensions while maintaining a universally applicable core model. For example, the CRM has been extended through CRMinf\cite{CRMinf} for inferential logic showcasing its adaptability to specialized needs while preserving interoperability.
+
+\subsection{DOLCE}\label{III-subsec:dolce}
+
+The Descriptive Ontology for Linguistic and Cognitive Engineering (DOLCE) \cite{gangemiSweeteningOntologiesDOLCE2002a} is a foundational ontology designed to reflect the cognitive structures underlying human perception and natural language. Its primary purpose is to serve as a reference framework for developing and comparing more specialized ontologies, making it valuable for Semantic Web applications.
+
+DOLCE emphasizes commonsense knowledge rather than strictly scientific principles, making it suitable for fields where human cognition plays a central role, such as education or linguistics. It distinguishes between particulars (individual entities) and universals (properties or categories shared by multiple instances).
+
+A key distinction in DOLCE is between endurants and perdurants. Endurants are entities that exist wholly at any given moment, such as physical objects, whereas perdurants extend through time and have temporal parts, such as events or processes. This event-centric approach aligns well with NOnt's treatment of narratives, which unfold over time.
+
+DOLCE also distinguishes between substantials, features, and regions. Substantials are independent entities (e.g., physical objects), features depend on other entities for their existence (e.g., the surface of a rock), and regions represent spatial or temporal extents, providing a framework for understanding the occurrence or existence of entities.
+
+\subsection{FRBRoo and LRMoo}\label{III-subsec:frbroo}
+
+FRBRoo \cite{doerrFRBROOCONCEPTUALMODEL2008} is the object-oriented extension of the Functional Requirements for Bibliographic Records (FRBR), harmonized with CIDOC-CRM. It provides a formal ontology for representing bibliographic information, facilitating the integration of bibliographic and museum information, allowing users to access both bibliographic records and museum artifacts in a unified way. For example, a user could explore a historical figure's biographical records alongside relevant artifacts from museum collections, providing a richer, more integrated understanding. This harmonization results in an ontological framework that supports interoperability between libraries and museums, enhancing the ability to develop interoperable information systems.
+
+FRBRoo applies an empirical analysis to entities, processes, and relationships in the bibliographic universe, allowing for a broader understanding of bibliographic data beyond traditional library contexts. It enables the formalization of bibliographic concepts in an object-oriented manner that is suited to digital systems. 
+
+The transition from FRBRoo to LRMoo \cite{rivaLRMooHighlevelModel2022} marks a significant evolution in the modeling of bibliographic concepts. The first version of FRBRoo, drafted in 2006, \culminated in an official release, 1.0.1, in 2010, which aligned with the FRBR framework. Subsequent expansions, such as version 2.4, incorporated concepts from the FRAD and FRSAD models. However, following the approval of the IFLA Library Reference Model (LRM) in 2017\cite{groupIFLALibraryReference2018}, a working group was established to update FRBRoo to reflect the new LRM framework. This update resulted in a model distinct enough from FRBRoo to merit a new name, LRMoo, highlighting its basis in the LRM entity-relationship model but reinterpreted in an object-oriented format. LRMoo version 1.0 was officially approved in April 2024, representing the culmination of this alignment.
+
+\subsection{OWL Time}\label{III-subsec:owlTime}
+
+OWL-Time \cite{TimeOntologyOWL} is an ontology developed within the \acrshort{OWLLabel} framework to represent temporal concepts. It provides a vocabulary to describe temporal properties, such as event ordering and duration. OWL-Time supports the description of both conventional calendar systems, like the Gregorian calendar, and alternative temporal frameworks, such as Unix-time or geological time.
+
+\subsection{Core Concepts of NOnt}\label{III-subsec:nontCore}
+
+The core concepts of NOnt extend and adapt the CRM to effectively model narratives and their underlying fabulae. By utilizing key classes and properties from the CRM, supplemented with custom extensions, NOnt provides a robust framework for representing events, temporal relations, causality, and the mereology of narratives. Through careful consideration of provenance and inference-making, NOnt also captures the intellectual processes behind narrative creation, ensuring a comprehensive representation of both the fabula and its narration.
+
+Events are central to the NOnt framework and are represented by instances of the CRM class \textit{E5 Event}. According to the CRM, an \textit{E5 Event} refers to "changes of states in cultural, social or physical systems, regardless of scale, brought about by a series or group of coherent physical, cultural, technological, or legal phenomena". In the NOnt ontology, events can be further specialized into intentional actions, captured as instances of the class \textit{E7 Activity}. This class describes activities carried out deliberately by actors (\textit{E39 Actor}) and leads to state changes within the documented system. In NOnt, \textit{E7 Activity} is considered a subclass of \textit{E5 Event}, which itself is a subclass of \textit{E4 Period}. 
+
+Time plays a crucial role in the representation of events. In NOnt, time intervals are modeled using the CRM class \textit{E52 Time-Span}, which encapsulates abstract temporal extents with a defined beginning, end, and duration. This approach adheres to the principles of Galilean physics and enables precise temporal demarcation for each event or activity within the ontology. Additionally, NOnt utilizes the CRM property \textit{P4 has time-span} to associate events with their respective time intervals. To further structure event sequences, temporal relations between events are expressed using properties from Allen's interval algebra, such as \textit{P117 occurs during} and \textit{narr occurs before}, ensuring compliance with irreflexive and asymmetric constraints.
+
+Although the CRM was not initially designed to represent narratives explicitly, the class \textit{E28 Conceptual Object} is employed in NOnt to represent abstract elements such as fabulae, or the underlying sequence of events in a narrative. \textit{E28 Conceptual Object} includes non-material products of human thought, making it suitable for representing the intellectual constructs that fabulae embody. To relate events within the fabula to the fabula itself, the CRM property \textit{P12 occurred in the presence of} is used, linking an \textit{E5 Event} with an \textit{E77 Persistent Item}, which is a superclass of \textit{E28 Conceptual Object}. This relationship allows the fabula to be represented as a persistent entity that spans multiple events.
+
+In NOnt, the structure of events and their relations are captured through mereological properties. The direct part-hood relation is expressed using the custom property \textit{narr direct part}, which is defined as a sub-property of the CRM property \textit{P9 consists of}. This property connects an instance of \textit{E4 Period} with another instance of \textit{E4 Period}, where one period is considered a subset of the other. To enforce the non-cyclic nature of these part-whole relations, the property \textit{narr acyclic part} is introduced as a transitive and irreflexive super-property of \textit{narr direct part}. In NOnt, cycles introduced via \textit{narr direct part} would lead to logical inconsistency in the knowledge base, ensuring the acyclic nature of part-whole relations.
+
+Causal relations between events are represented in NOnt using a new property termed \textit{causal dependency}. This property complements the existing CRM property \textit{P17 was motivated by}, which links activities but does not adequately model causality between events. The \textit{causal dependency} property is transitive and reflexive, enabling the representation of long-term causal dependencies between events, which is essential for modeling narratives where events may be temporally distant yet causally linked. The extension to CRM provided by CRMsci, specifically the \textit{O13 triggers} property, was found inadequate for narratives, as it applies to immediate triggers rather than the broader causal chains often found in fabulae.
+
+Narrators and their narratives are integral to the structure of NOnt. Narrators are modeled as instances of the CRM class \textit{E21 Person}, and the creation of a narrative is represented as an event of class \textit{E65 Creation}, with the creation event linked to the narrator using the property \textit{P14 carried out by} and to the narrative text via \textit{P94 has created}. The narrative text itself is an instance of \textit{E73 Information Object}, representing structured content such as poems, texts, or multimedia objects.
+
+In NOnt, the mereological structure of texts is captured through the CRM property \textit{P106 is composed of}, which links a structural whole to its component parts. However, this property reflects the author's intended structure and may not correspond directly to narrative events. To resolve this, NOnt introduces the FRBRoo class \textit{F23 Expression Fragment}, which represents smaller, non-self-contained portions of text that narrate individual events. This class is connected to structural units of text via \textit{P106} and related to the events they describe through the CRM property \textit{P129 is about}.
+
+NOnt also incorporates provenance information, documenting the inferential processes through which narratives are constructed from primary sources. The CRM class \textit{S4 Observation} models the act of observing primary sources, while \textit{S15 Observable Entity} represents the source itself. Propositions derived from these observations are grouped into \textit{I4 Proposition Sets}, which can be associated with beliefs (\textit{I2 Belief}) and inference-making processes (\textit{I5 Inference Making}). This structure enables the representation of how biographers or narrators derive conclusions about events from primary sources, further enriching the ontology's ability to capture complex narrative structures.
+
+
+
+
+% \subsection{Existing Event Ontologies}
+
+% In our exploration of the core concept of events, we found that the Semantic Web community has developed a variety of models for event representation. Some of the most prominent include the Event Ontology~\cite{abdallahEventOntology2007}, which provides a simple yet flexible framework for describing events, the Linking Open Descriptions of Events (LODE)~\cite{shawLODELinkingOpen2009}, which focuses on linking and sharing event information across datasets, the Event-Model-F Ontology~\cite{scherpFaModelEvents2009}, which supports complex event representations with a focus on their relationships and context, and the Simple Event Model (SEM)~\cite{vanhageDesignUseSimple2011}, which emphasizes ease of use and versatility in representing events as they relate to people, places, and objects.
+
+% In addition to these event-specific models, there are broader ontological frameworks aimed at organizing semantic data across various domains. The Europeana Data Model (EDM)~\cite{doerrEuropeanaDataModel2010} is one such framework, designed to integrate and structure diverse cultural heritage data, including events, across different institutions. EDM enables the representation of events in conjunction with other types of data, providing a comprehensive model for the semantic organization of information.
+
+
+\section{CRM-geo}\label{III-sec:crmgeo}
+
+Currently, there is no comprehensive approach to modeling geospatial narratives. The primary objective of this thesis is to address this gap by reusing and extending existing ontologies to create a robust model tailored for geospatial narratives. Since the Narrative Ontology (NOnt) is predominantly grounded in well-established ontologies, particularly \acrfull{CIDOCCRMLabel}, one key extension we will leverage is CRMgeo. CRMgeo serves as an ideal linkage, as it establishes a spatiotemporal bridge between GeoSPARQL—a widely used standard for querying geospatial data—and \acrshort{CRMLabel}, the conceptual reference model for cultural heritage.
+
+CRMgeo \cite{doerrCRMgeoLinkingCIDOC} is a natural fit for this purpose because it allows for the seamless integration of spatial and temporal data within narrative contexts. By harnessing the capabilities of GeoSPARQL for geospatial reasoning with \acrshort{CRMLabel}'s event-based framework, CRMgeo enables the representation of dynamic geospatial events that unfold over time. This spatiotemporal synergy is crucial for geospatial narratives, which often involve the progression of events across both space and time.
+
+In explaining CRMgeo, we begin by noting its primary aim: CRMgeo was created to bridge the gap between two widely recognized standards, namely the \acrshort{CRMLabel}, which represents cultural heritage information, and GeoSPARQL, which is a standard for geospatial data. The primary challenge is that both the geospatial and cultural heritage communities have developed separate systems for managing information related to their respective domains. CRMgeo functions as an articulation—a detailed conceptual link—between these two ontologies. This linking allows for more nuanced and accurate descriptions of places and their temporal characteristics in a way that integrates both cultural heritage and geospatial perspectives.
+
+To understand the importance of CRMgeo, one must first grasp the distinction between two key concepts: Phenomenal Place and Declarative Place. The Phenomenal Place refers to the actual, physical location where events, objects, or phenomena occurred or existed. This is a real-world location, often subject to uncertainty due to limitations in historical or archaeological data. On the other hand, a Declarative Place is a human-constructed concept, typically defined through geometric coordinates or descriptions that aim to approximate the Phenomenal Place. This distinction allows us to model places both as they exist in reality and as they are interpreted or hypothesized through historical records or spatial data.
+
+CRMgeo refines this model further by incorporating temporal aspects through the concept of Spacetime Volumes. In the CRMgeo framework, events and physical objects are described not only in terms of spatial extents but also in terms of their duration or temporal extent, which is referred to as the Phenomenal Spacetime Volume. These volumes capture both the spatial and temporal existence of a phenomenon, thus providing a more comprehensive description that is closer to how events and objects exist in reality—across time and space.
+
+Moreover, CRMgeo addresses the issue of multiple reference systems. For example, the same event, such as a historical battle, could be located in different reference spaces (e.g., the moving frame of a ship vs. the fixed coordinates of a battlefield). By recognizing this, CRMgeo allows for the accurate representation of how an event might be perceived or studied from different spatial perspectives.
+
+In mathematical terms, CRMgeo uses Geometric Place Expressions to define Declarative Places. These expressions are based on spatial coordinate reference systems, which allow users to describe locations precisely. Importantly, CRMgeo does not assume that places can always be determined with absolute precision. Instead, it accounts for the inherent uncertainties that arise from measurement limitations, geological shifts, and historical interpretation.
+
+The integration of \acrshort{CRMLabel} and GeoSPARQL through CRMgeo thus ensures that cultural heritage data can be enriched with precise geographic information while maintaining the ability to account for historical and epistemological uncertainties. This model provides a flexible and scalable way to connect cultural heritage information with geospatial data, supporting interdisciplinary research that spans archaeology, history, and geoinformatics.
+
+In summary, CRMgeo serves as a theoretical and practical tool to link spatiotemporal information in cultural heritage with geographic data standards, offering a method for reconciling historical records with spatial coordinates in a way that acknowledges and quantifies uncertainties. It provides a formal framework for defining, verifying, and refining the relationship between historical places and their physical locations, all while ensuring compatibility with broader geospatial information systems.
+
+This explanation captures the essence of CRMgeo's role and significance, using clear and structured language to detail its conceptual basis and its practical applications.
+
+
+\section{Conclusion}\label{III-sec:conclusion}
+
+The exploration of ontologies for representing geospatial and spatiotemporal narratives highlights the transformative potential of these frameworks in handling complex data. Ontologies such as GeoSPARQL, Schema.org, and CRMgeo provide a robust foundation for modeling geospatial dimensions, enabling the seamless integration of geographic information with narrative structures. By extending these ontological frameworks, it becomes possible to capture the intricate relationships between events, places, and time in a way that supports advanced data analysis and interoperability. The integration of narrative ontologies, particularly NOnt, further enhances our ability to represent complex storytelling by formalizing the connections between events, locations, and temporal sequences. This approach not only advances theoretical understanding but also opens practical applications across disciplines such as cultural heritage, digital storytelling, and environmental science, underscoring the importance of ontologies in the evolving landscape of semantic web technologies.
+
+In the following sections, we will detail the development of the NOnt+S the geospatial version of NOnt. This ontology will extend NOnt to support the complex requirements of geospatial storytelling, allowing for a more nuanced representation of events, places, and movements within a narrative framework. By doing so, NOnt+S aims to facilitate richer, more interconnected narrative queries, enabling users to explore not only "what happened" but also "where" and "when" events took place in relation to one another. This ontology will be instrumental in advancing the field of digital storytelling, particularly within domains like cultural heritage, history, and \acrshort{GISLabel}, but also to support other scientific domains like bioeconomy.
+
