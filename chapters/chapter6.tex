@@ -18,7 +18,7 @@
 % \section{Results and Findings}
 
 % The outcomes of the case studies are presented, including the geospatial knowledge extracted and any patterns observed. Visualizations such as maps or graphs may be used to illustrate the findings.
-\chapter{A Semantic-Web Framework to represents Geospatial knwoledge in narratives}\label{chap:SW-framework}
+\chapter{A Semantic-Web Framework to Represents Geospatial Knowledge in Narratives}\label{chap:SW-framework}
 
 \section{Introduction}\label{VI-sec:introduction}
 
@@ -64,7 +64,7 @@ The entity linking process generally involves three main steps:
 
 \subsubsection{Linking to Wikidata}
 
-An example of entity linking is connecting dataset entities to \textit{Wikidata} \cite{Wikidata}, an always up-to-date, community-driven, and multilingual knowledge base. Linking to Wikidata enriches the original data by incorporating a wealth of additional information, such as:
+An example of entity linking is connecting dataset entities to \textit{Wikidata} \cite{vrandecicWikidataFreeCollaborative2014}, an always up-to-date, community-driven, and multilingual knowledge base. Linking to Wikidata enriches the original data by incorporating a wealth of additional information, such as:
 
 \begin{itemize}
     \item \textbf{Semantic Relationships}: Relationships between entities, enabling the inference of new knowledge through connected data.
@@ -73,6 +73,14 @@ An example of entity linking is connecting dataset entities to \textit{Wikidata}
 \end{itemize}
 
 By linking entities to a comprehensive knowledge base like Wikidata, the module enhances the semantic depth of the knowledge graph and promotes data interoperability.
+
+The integration of information from diverse sources is essential in enhancing the quality and comprehensiveness of contemporary research and applications. Structured data repositories like \textit{Wikidata} \cite{vrandecicWikidataFreeCollaborative2014} and \textit{GeoNames} \cite{GeoNames} have become central to this ecosystem, offering extensive, collaboratively maintained datasets that support a wide range of use cases. While these repositories provide significant advantages, they also introduce challenges that necessitate careful consideration.
+
+One of the most compelling strengths of \textit{Wikidata} is its role as a universal knowledge base. It offers structured data that is multilingual and compatible with linked data standards, enabling researchers to explore complex relationships between entities. Its collaborative nature ensures that information remains current and relevant, supported by contributions from a global community. Similarly, \textit{GeoNames} excels in providing rich geospatial data, including geographic coordinates, administrative hierarchies, and alternate place names. This repository is indispensable for applications such as geocoding, reverse geocoding, and geographic analysis, with seamless interoperability with Geographic Information Systems (GIS).
+
+Despite their strengths, these repositories are not without limitations. The collaborative nature of \textit{Wikidata}, while a strength, also introduces potential inconsistencies and errors due to varying levels of expertise among contributors. The reliance on community-driven updates may lead to gaps in coverage or delays in incorporating critical information. \textit{GeoNames}, while rich in geospatial data, can sometimes lack granularity or fail to account for rapidly changing geopolitical landscapes. Furthermore, its reliance on standardized schemas may limit the ability to represent unique or culturally specific geographic distinctions.
+
+The reliance on these repositories underscores both their value and the challenges they pose. On the one hand, they empower researchers and developers to access vast, structured datasets without the need to independently compile and validate such information. This reliance reduces resource demands and accelerates innovation. On the other hand, it raises questions about the reliability of the data and the risks of dependency on external platforms that may undergo policy changes or service disruptions. For projects requiring offline usability, reliance on live queries to \textit{Wikidata} or \textit{GeoNames} can pose significant challenges. Ensuring that essential datasets are locally replicated and periodically updated is critical to maintaining functionality in environments where internet connectivity is limited or unreliable.
 
 \subsection{Enrichment}\label{VI-subsec:enrichment}
 
@@ -101,6 +109,8 @@ Finally, processing large volumes of geospatial data requires substantial comput
 
 By addressing these challenges with advanced techniques and solutions, the process of enriching data with geospatial information becomes more feasible, allowing organizations to unlock the full potential of their data for more informed decision-making.
 
+
+
 \section{Semantic Representation}\label{VI-sec:semantic-representation}
 
 At the core of the framework lies the \textit{Semantic Representation} module, which employs the NOnt+S ontology to structure and organize data. This module offers the formal representation of knowledge within narratives, ensuring that narrative concepts are accurately represented in the corresponding knowledge graph. A key feature of this module is its ability to integrate geospatial representations into the knowledge structure. As detailed in \ref{chap:nont+s}, the NOnt+S ontology provides an extensive and well-defined vocabulary for modeling geospatial entities, along with their associated attributes and relationships, thereby facilitating a comprehensive representation of both narrative and spatial elements within the semantic framework.
@@ -119,7 +129,6 @@ Particularly noteworthy is the role of the \textit{geospatial triplifier} softwa
 
 The \textit{Reasoning} module is a critical component of the framework, enabling semantic reasoning, which is the process of deriving new insights from existing data. This ability to infer new facts is based on predefined inference rules or ontologies, allowing for the enrichment of the knowledge graph. By introducing new knowledge and adding context, the module enhances the dataset’s depth and usability. The Reasoning module goes beyond mere data retrieval; it transforms a static repository into an intelligent system capable of generating additional information and insights from the given data. Furthermore, it integrates geospatial reasoning, extending its utility to spatial data and relationships.
 
-
 The Reasoning module provides two key capabilities that empower the framework to extend the meaning and utility of the data: Geospatial Reasoning and Semantic Reasoning.
 
 \subsection{Geospatial Reasoning}\label{VI-subsec:geospatialReasoning}
@@ -130,11 +139,38 @@ The process of geospatial reasoning integrates seamlessly with the GeoSPARQL sta
 
 \subsection{Semantic Reasoning}\label{VI-subsec:semanticReasoning}
 
-Semantic reasoning in the framework is powered by the well-established semantic web reasoning engines  Pellet\cite{sirinPelletPracticalOWLDL2007} implemented thought the open source implementation Openllet\cite{galigatorGaligatorOpenllet2024}. This engine enable the automated inference of new knowledge from existing data by applying formal rules defined within ontologies. Semantic reasoning plays a pivotal role in ensuring that the knowledge graph remains logically consistent and that complex relationships between entities can be accurately inferred.
+Reasoning within OWL 2 DL is a cornerstone of its utility in the Semantic Web, primarily because of its formal grounding in Description Logics (DLs) that ensures decidability and expressiveness. OWL 2 DL is designed to balance the trade-off between computational complexity and the need for a rich modeling language. It enables reasoning over ontologies by leveraging a complete model-theoretic semantics, allowing inferential tasks such as subsumption checking, instance classification, and consistency verification. This is achieved through the incorporation of advanced logical constructs derived from the SROIQ description logic, which supports features like role hierarchies, qualified cardinality restrictions, and rich property characteristics, including inverses, chains, and transitivity. The adoption of DL semantics guarantees that every valid inference can be systematically derived, ensuring predictability and reliability. Moreover, OWL 2 DL imposes syntactic restrictions that segregate entities like classes, properties, and individuals, thereby avoiding the ambiguity of interpretation inherent in RDF-based semantics. These restrictions are crucial for preserving the decidability of reasoning tasks. By combining expressive power with algorithmic feasibility, OWL 2 DL provides a robust framework for developing interoperable and logically sound ontologies, making it an indispensable tool for the realization of the Semantic Web's vision of a machine-understandable web of knowledge.
 
-By employing these reasoners, the system can validate ontology constraints, perform class subsumption checks, and infer implicit relationships, thereby enhancing the expressiveness and utility of the knowledge graph. For instance, if a geographical work is associated with a particular cultural heritage site through a set of ontological properties, semantic reasoning can automatically classify and link related entities, revealing deeper connections that may not be immediately apparent.
+Reasoners for OWL 2 DL ontologies serve as critical components in semantic web technologies, facilitating various forms of reasoning essential for ontology-based applications. This section provides a short analysis of these reasoners, but a deeper analysis on what reasoners are still usable can be found in \cite{abichtOWLReasonersStill2023}. 
 
-Moreover, these reasoning engines support rule-based and ontology-based inferences, which are instrumental in managing the complexity of geospatial narrative data. This level of semantic reasoning ensures that the knowledge graph serves as a rich and cohesive resource, empowering researchers to perform sophisticated queries and gain insights that are grounded in a rigorous semantic framework.
+\subsubsection{FaCT++}
+FaCT++\cite{tsarkovFaCTDescriptionLogic2006} is a highly optimized OWL 2 DL reasoner that succeeds the original FaCT (Fast Classification of Terminologies). It implements a tableaux decision procedure for SHOIQ Description Logic and extends support to data types such as strings and integers. The latest version (1.6.5) is available on a Bitbucket repository, with the last commit made in December 2017. While FaCT++ is integrated into the standard Protégé 5.6.1 distribution, standalone downloads are also available. Despite occasional plugin installation issues on Windows, documented workarounds ensure usability, and its consistent use in research underscores its reliability.
+
+\subsubsection{HermiT}
+HermiT \cite{glimmHermiTOWL22014} is a Java-based OWL 2 reasoner that employs hypertableau calculus to provide entailment checking and other reasoning services such as class and property classification, as well as SPARQL query answering. While its development has ceased (with the latest version, 1.3.8, available on a GitHub repository), it remains accessible as a plugin in Protégé 5.6.1. Although official binaries are scarce, unofficial options exist, ensuring its usability. HermiT's historical significance and functionality make it a mainstay for reasoning tasks within OWL 2 ontologies.
+
+\subsubsection{JFact}
+JFact \cite{JFactDLReasoner} is a Java port of FaCT++, designed for compatibility with OWL API 3.x and 4.x. Although no dedicated publications describe JFact, it has been referenced in academic literature and provides downloadable resources from GitHub and SourceForge. While its compatibility with Protégé 5.6.1 remains partially uncertain, JFact functions effectively within Java projects. This portability and alignment with the OWL API make it a suitable choice for developers seeking to leverage FaCT++'s capabilities in Java environments.
+
+\subsubsection{Openllet}
+Openllet \cite{galigatorGaligatorOpenllet2024}, a fork of Pellet, extends and optimizes reasoning functionality for OWL 2. It supports tasks such as consistency checking, classification hierarchy computation, inference explanation, and SPARQL query answering. Openllet's latest version (2.6.5) is actively maintained, with the most recent update in May 2023. Distributed as an open-source project, it offers pre-generated JAR files and example usage documentation. While a Protégé plugin is mentioned, it appears to lack widespread availability. Openllet’s focus on optimization and modern compatibility makes it ideal for performance-intensive reasoning tasks.
+
+\subsubsection{Pellet}
+Pellet \cite{sirinPelletPracticalOWLDL2007} has the distinction of being one of the first sound and complete OWL 2 DL reasoners. Written in Java, it supports a comprehensive suite of reasoning tasks, including debugging ontologies and reasoning with user-defined data types. While its original website is no longer accessible, several GitHub repositories provide source code. However, these repositories are no longer actively maintained. Despite this, Pellet remains usable via its integration into Protégé 5.6.1, where it serves as a reliable reasoning tool for ontology-based applications. Its legacy and functionality ensure its relevance, especially for applications requiring debugging and data type reasoning.
+
+\subsubsection{Chainsaw}
+Chainsaw \cite{tsarkovChainsawMetareasonerLarge} is a meta-reasoner designed to handle large ontologies by generating modules and delegating reasoning tasks to specialized third-party reasoners, such as ELK. Its modular decomposition approach is particularly effective for scalability and performance optimization. The Chainsaw source code is available on a Bitbucket repository, with the latest commit recorded in 2022. Downloads are hosted on SourceForge, ensuring accessibility for researchers and developers seeking a scalable solution to ontology reasoning.
+
+\subsection{The Integration of Openllet in the Framework}
+
+Pellet, and its open-source counterpart Openllet, have emerged as prominent reasoning engines for OWL 2 DL ontologies, providing robust capabilities that make them indispensable for numerous semantic web applications. These reasoners support essential inference tasks, including subsumption, consistency checking, and instance realization, all of which are foundational for enabling intelligent query answering and ensuring semantic coherence in ontology-driven systems.
+
+While most OWL 2 DL reasoners are primarily designed to operate within the Protégé environment \cite{musenProtegeProject2015}, their adaptability to other platforms can vary significantly. This limitation often constrains the broader applicability of such tools in diverse frameworks that rely on alternative storage and query mechanisms. Our framework, detailed further in Section \ref{VI-sec:storage}, leverages the Fuseki API to provide efficient RDF data storage and SPARQL querying capabilities. Openllet distinguishes itself as the only reasoning engine fully compatible with Fuseki, ensuring seamless integration for performing reasoning tasks directly within this environment. 
+
+Moreover, Openllet extends its utility by supporting GeoSPARQL within Fuseki, a critical feature for applications that incorporate geospatial data. This compliance facilitates advanced geospatial reasoning, enabling operations such as spatial relationships and topology-based queries to be executed with the same semantic rigor as standard OWL reasoning. The ability to bridge the reasoning needs of OWL 2 DL with geospatial data requirements highlights Openllet’s unique position within the ecosystem of semantic web technologies, reinforcing its suitability for integration into our framework.
+
+This synergy between Openllet and Fuseki not only broadens the functional scope of the reasoning process but also enhances the scalability and flexibility of the framework, making it well-suited for a wide range of semantic web and geospatial applications.
+
 
 \section{Storage}\label{VI-sec:storage}
 
@@ -368,6 +404,8 @@ Through the interplay of these functionalities, the Querying module offers a hol
 
 \subsection{Visualization}\label{VI-subsec:visualization}
 
+\subsubsection{Story Maps}
+
 The visualization module in the framework utilizes the \acrfull{SMBVTLabel} module to render graphs as Story Maps, a concept introduced in \cite{bartalesiWebToolCreate2023c, bartalesiUnstructuredTextsSemantic2023b}. Story Maps are a visualization paradigm focused on presenting maps as dynamic narratives, where sequences of events are enriched with multimedia elements to create an engaging, spatially structured storytelling experience. Many software solutions exist for creating and visualizing story maps, with a focus on platforms that enable users to integrate text, images, audio, and video. These platforms aim to produce interactive, map-based narratives that guide users through immersive storytelling paths.
 
 ArcGIS StoryMap is one of the foremost platforms in this area, known for its flexibility in designing, publishing, and sharing interactive story maps \cite{walsheUsingArcGISOnline2016}. This software allows for a high degree of customization, permitting users to augment their narrative flow through the incorporation of diverse multimedia elements. Although ArcGIS StoryMap offers an array of commercial versions with expanded features, a free version is also available. However, the free version comes with several restrictions: it lacks support for embedding external web pages, limits advanced map interaction capabilities, and reduces options for theme customization. Accessibility settings are similarly constrained, and perhaps most notably, the free version does not support integration with entities from existing knowledge bases such as Wikidata.\footnote{These limitations in the free version reflect typical restrictions in proprietary storytelling platforms, which may constrain the degree of interactivity and linkage to external datasets.}
@@ -380,6 +418,20 @@ Open-source tools like Odyssey.js present hybrid approaches to story map creatio
 
 Despite their utility in building story maps, these tools exhibit significant limitations compared to the SMBVT module, particularly in their handling of semantic integration and story inter-linking. Unlike the software reviewed, SMBVT leverages Semantic Web technologies, enabling it to link seamlessly with structured knowledge bases like Wikidata, thereby supporting enhanced data integration and interconnectivity between stories. SMBVT’s fully free availability further distinguishes it by removing the access and functionality constraints often inherent in both commercial and open-source alternatives. This unique combination of semantic linking and accessibility establishes SMBVT as an innovative tool in the field of story map creation, effectively addressing the common drawbacks of existing platforms and equipping users with a powerful solution for creating semantically enriched story maps.
 
+\subsubsection{Other Visualization}
+
+While Story Maps provide a compelling narrative-driven approach to visualizing data, there are alternative methods that offer distinct advantages for enhancing the usability and adaptability of NOnt+S across various contexts. Exploring these alternatives reveals opportunities to complement Story Maps, catering to diverse user needs and scenarios.
+
+One approach involves the use of timelines, which emphasize temporal data by presenting sequential events in a linear or interactive format. This method enables users to explore historical developments, project schedules, or event sequences effectively. Similar to Story Maps, timelines can be enriched with multimedia elements, but their primary focus is on temporal progression rather than spatial narratives. This makes them particularly well-suited for applications where chronology is more significant than location. Furthermore, the temporal dimension highlighted in timelines can be integrated into Story Maps, providing a comprehensive view that combines both spatial and chronological contexts.
+
+Network graphs offer another complementary visualization method, emphasizing relationships and connections within datasets. By visualizing entities as nodes and their interactions as edges, network graphs are particularly effective in fields like social network analysis, citation mapping, and knowledge graph representation. Their ability to reveal complex interdependencies and patterns makes them a powerful tool for representing semantic structures and linking narratives in NOnt+S, augmenting the capabilities of Story Maps.
+
+Immersive 3D visualizations, such as virtual reality (VR) and augmented reality (AR), provide an experiential dimension to data visualization. These technologies enable users to navigate spatially complex datasets in simulated environments, enhancing spatial awareness and engagement. Applications range from urban planning and archaeology to scientific simulations, where spatial context and interaction are integral to understanding.
+
+
+Lastly, heatmaps and geospatial analytics complement map-based storytelling by providing high-level overviews of data distributions and trends. These visualizations excel in scenarios requiring aggregated insights, such as demographic studies, environmental monitoring, and public health analyses. Their ability to convey density and intensity in spatial contexts adds depth to the insights derived from Story Maps, offering alternative perspectives on the same data.
+
+By integrating these visualization approaches, NOnt+S can expand its usability across varied contexts. Interactive dashboards promote data-driven exploration; network graphs elucidate relationships; immersive 3D visualizations enhance experiential engagement; timelines provide temporal clarity; and heatmaps enable high-level spatial analysis. Together, these methods enrich the visualization landscape, ensuring that NOnt+S adapts seamlessly to the needs of diverse audiences and applications.
 
 
 % \section{Integration of Case Studies}
@@ -387,6 +439,20 @@ Despite their utility in building story maps, these tools exhibit significant li
 % The framework has been applied to datasets from the \textit{MOVING} and \textit{IMAGO} projects, each of which provided unique challenges for geospatial data representation and reasoning. Through the framework, these datasets were transformed into enriched knowledge graphs that support advanced geospatial queries and reasoning.
 
 % For the \textit{MOVING} project, the framework handled agricultural data, such as farm locations, crop yields, and environmental factors. The \textit{IMAGO} project, on the other hand, dealt with geographic narratives, requiring the framework to capture complex spatial relationships between historical events and geographic features.
+
+
+\section{Scalability and Generalizability of the Framework}\label{VI-sec:scalability}
+
+The NOnt+S framework is built with scalability and generalizability as foundational principles, enabling it to adapt to varying data sizes, complexities, and application contexts. Scalability is achieved through its modular architecture, which allows independent components such as data linking, semantic enrichment, and reasoning to operate efficiently even as data volumes increase. For example, the triplestore, central to data storage and querying, can be expanded using distributed systems or cloud-based infrastructures. By integrating efficient reasoning engines like Openllet, the framework ensures that computational demands are kept manageable, even when processing extensive datasets.
+
+Performance testing, particularly with synthetic datasets under the Geographica 2 benchmark, has demonstrated the framework’s capability to maintain linear query response times even as dataset sizes grow significantly. This ensures that the system remains responsive and efficient, making it suitable for both small-scale applications and those involving massive geospatial data repositories.
+
+The framework’s generalizability lies in its ability to adapt to a broad range of domains and datasets. While the NOnt+S ontology forms its semantic backbone, the architecture supports the integration of alternative ontologies tailored to specific fields. Its compatibility with diverse data sources such as Wikidata, GeoNames, and OpenStreetMap underscores its flexibility in handling varied schemas and granularities. This adaptability has been validated through its application to case studies in agricultural and historical narratives, showcasing its potential across disciplines like urban planning, cultural heritage, and environmental science.
+
+By adhering to established standards such as RDF, OWL, and SPARQL, the framework ensures interoperability with other semantic systems and tools. This alignment not only broadens its utility but also facilitates seamless data sharing and integration. Moreover, its querying and visualization capabilities, including the ability to construct dynamic Story Maps and other visual representations, provide users with versatile tools to explore and communicate insights.
+
+Despite its strengths, challenges remain in addressing real-time data integration, optimizing usability for non-experts, and ensuring efficiency in resource-constrained environments. For instance, incorporating IoT sensor data or handling dynamic geospatial changes would require further optimization of data ingestion and reasoning processes. Enhancing the user interface to simplify the construction of complex queries would also help democratize its usage, particularly for non-technical users.
+
 
 \section{Conclusion}
 
